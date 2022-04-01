@@ -1,0 +1,74 @@
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-limit-range
+spec:
+  background: false
+  rules:
+    - name: add-limit-range-sm
+      match:
+        resources:
+          kinds:
+            - Namespace
+          selector:
+            matchLabels:
+              type: small
+      generate:
+        kind: LimitRange
+        name: limit-range-sm
+        namespace: "{{request.object.metadata.name}}"
+        data:
+          spec:
+            limits:
+              - default:
+                  memory: 512Mi
+                  cpu: 100m
+                defaultRequest:
+                  memory: 128Mi
+                  cpu: 100m
+                type: Container
+    - name: add-limit-range-md
+      match:
+        resources:
+          kinds:
+            - Namespace
+          selector:
+            matchLabels:
+              type: medium
+      generate:
+        kind: LimitRange
+        name: limit-range-md
+        namespace: "{{request.object.metadata.name}}"
+        data:
+          spec:
+            limits:
+              - default:
+                  memory: 512Mi
+                  cpu: 100m
+                defaultRequest:
+                  memory: 128Mi
+                  cpu: 100m
+                type: Container
+    - name: add-limit-range-lg
+      match:
+        resources:
+          kinds:
+            - Namespace
+          selector:
+            matchLabels:
+              type: large
+      generate:
+        kind: LimitRange
+        name: limit-range-lg
+        namespace: "{{request.object.metadata.name}}"
+        data:
+          spec:
+            limits:
+              - default:
+                  memory: 512Mi
+                  cpu: 100m
+                defaultRequest:
+                  memory: 128Mi
+                  cpu: 100Mi
+                type: Container

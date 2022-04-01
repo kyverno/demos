@@ -1,0 +1,90 @@
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-quota
+spec:
+  validationFailureAction: enforce
+  background: false
+  rules:
+    - name: add-quota-sm
+      match:
+        resources:
+          kinds:
+            - Namespace
+          selector:
+            matchLabels:
+              type: small
+      generate:
+        kind: ResourceQuota
+        name: quota-sm
+        namespace: "{{request.object.metadata.name}}"
+        data:
+          spec:
+            hard:
+              requests.cpu: "1"
+              requests.memory: 8Gi
+              limits.cpu: "1"
+              limits.memory: 8Gi
+              limits.nvidia.com/gpu: 1
+              replicationcontrollers: "1"
+              configmaps: "1"
+              persistentvolumeclaims: "3"
+              pods: "3"
+              secrets: "5"
+              services: "1"
+              services.loadbalancers: "1"
+    - name: add-quota-md
+      match:
+        resources:
+          kinds:
+            - Namespace
+          selector:
+            matchLabels:
+              type: medium
+      generate:
+        kind: ResourceQuota
+        name: quota-md
+        namespace: "{{request.object.metadata.name}}"
+        data:
+          spec:
+            hard:
+              requests.cpu: "4"
+              requests.memory: 16Gi
+              limits.cpu: "4"
+              limits.memory: 16Gi
+              limits.nvidia.com/gpu: 3
+              replicationcontrollers: "3"
+              services: "3"
+              configmaps: "3"
+              persistentvolumeclaims: "10"
+              pods: "10"
+              secrets: "10"
+              services.loadbalancers: "3"
+    - name: add-quota-lg
+      match:
+        resources:
+          kinds:
+            - Namespace
+          selector:
+            matchLabels:
+              type: large
+      generate:
+        kind: ResourceQuota
+        name: quota-lg
+        namespace: "{{request.object.metadata.name}}"
+        data:
+          spec:
+            hard:
+              requests.cpu: "8"
+              requests.memory: 32Gi
+              limits.cpu: "8"
+              limits.memory: 32Gi
+              limits.nvidia.com/gpu: 10
+              replicationcontrollers: "10"
+              configmaps: "10"
+              persistentvolumeclaims: "30"
+              pods: "30"
+              secrets: "30"
+              services: "10"
+              services.loadbalancers: "10"

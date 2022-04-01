@@ -1,0 +1,29 @@
+apiVersion : kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: limits
+spec:
+  background: false
+  validationFailureAction: enforce
+  rules:
+  - name: limit-lb-svc
+    match:
+      resources:
+        kinds:
+        - Service
+    context:
+    - name: serviceCount
+      apiCall:
+        urlPath: "/api/v1/namespaces/{{ request.object.metadata.namespace }}/services"
+        jmesPath: "items[?spec.type == 'LoadBalancer'] | length(@)"    
+    preconditions:
+    - key: "{{ request.operation }}"
+      operator: Equals
+      value: "CREATE"
+    validate:
+      message: "Only one LoadBalancer service is allowed per namespace"
+      deny:
+        conditions:
+        - key: "{{ serviceCount }}"
+          operator: Equals
+          value: 1

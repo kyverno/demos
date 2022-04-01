@@ -1,0 +1,32 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: block-root  
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: only-allow-non-root
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    preconditions:
+      all:
+      - key: "{{request.operation}}"
+        operator: NotEquals
+        value: DELETE
+    validate:
+      message: "Images with root user are not allowed"  
+      foreach:
+      - list: "request.object.spec.containers"
+        context: 
+        - name: imageData
+          imageRegistry: 
+            reference: "{{ element.image }}"
+        deny:
+          conditions:
+            all:
+              - key: "{{ imageData.configData.config.User || ''}}"
+                operator: Equals
+                value: ""

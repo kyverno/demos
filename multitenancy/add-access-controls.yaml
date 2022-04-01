@@ -1,0 +1,77 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-ns-access-controls
+spec:
+  background: false
+  rules:
+    - name: generate-owner-role
+      match:
+        resources:
+          kinds:
+            - Namespace
+      exclude:
+        clusterRoles:
+          - "cluster-admin"
+      generate:
+        synchronize: true
+        kind: ClusterRole
+        name: "ns-admin-{{request.object.metadata.name}}-{{request.userInfo.username}}"
+        data:
+          metadata:
+            annotations:
+              kyverno.io/user: "{{request.userInfo.username}}"
+          rules:
+            - apiGroups: [""]
+              resources: ["namespaces"]
+              verbs: ["get", "delete"]
+              resourceNames:
+                - "{{request.object.metadata.name}}"
+    - name: generate-owner-role-binding
+      match:
+        resources:
+          kinds:
+            - Namespace
+      exclude:
+        clusterRoles:
+          - "cluster-admin"
+          - "hnc-manager-role"
+      generate:
+        synchronize: true
+        kind: ClusterRoleBinding
+        name: "ns-admin-{{request.object.metadata.name}}-{{request.userInfo.username}}-binding"
+        data:
+          metadata:
+            annotations:
+              kyverno.io/user: "{{request.userInfo.username}}"
+          roleRef:
+            apiGroup: rbac.authorization.k8s.io
+            kind: ClusterRole
+            name: "ns-admin-{{request.object.metadata.name}}-{{request.userInfo.username}}"
+          subjects:
+            - kind: User
+              name: "{{request.userInfo.username}}"
+    - name: generate-admin-binding
+      match:
+        resources:
+          kinds:
+            - Namespace
+      exclude:
+        clusterRoles:
+          - "cluster-admin"
+      generate:
+        synchronize: true
+        kind: RoleBinding
+        name: "{{request.userInfo.username}}-admin-binding"
+        namespace: "{{request.object.metadata.name}}"
+        data:
+          metadata:
+            annotations:
+              kyverno.io/user: "{{request.userInfo.username}}"
+          roleRef:
+            apiGroup: rbac.authorization.k8s.io
+            kind: ClusterRole
+            name: admin
+          subjects:
+            - kind: User
+              name: "{{request.userInfo.username}}"

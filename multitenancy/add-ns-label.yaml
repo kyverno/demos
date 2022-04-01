@@ -1,0 +1,20 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-ns-labels
+spec:
+  background: false
+  rules:
+  - name: add-label
+    match:
+      resources:
+        kinds:
+        - Namespace
+    exclude:
+      clusterRoles:
+      - "cluster-admin"
+    mutate:
+      patchStrategicMerge:
+        metadata:
+          labels:
+            kyverno.io/createdBy: "{{request.userInfo.username}}"
