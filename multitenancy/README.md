@@ -20,4 +20,4 @@ This demo uses generate and mutate policies to create namespaced and cluster-wid
 5. Show generated network policy, quota, etc.
 6. Delete the network policy - it will be recreated.
 7. Delete the namespaces "--as ned". This should fail.
-8. Delete the namespace "--as nancy". This shold work.
+8. Delete the namespace "--as nancy". This should work.
