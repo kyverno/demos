@@ -10,3 +10,14 @@ This demo uses generate and mutate policies to create namespaced and cluster-wid
 * [add-limit-range.yaml](add-limit-range): adds a LimitRange to each namespace.
 * [add-access-controls.yaml](add-access-controls.yaml): creates fine-grained roles and role bindings for the namespace owners to allow viewing and deletion of namespaces.
 
+
+## Demo script:
+
+1. Install policies and roles.
+2. Create a namespace using "--as nancy" without the `type` label. It will fail.
+3.  Create a namespace using "--as nancy" with the `type` label. It will succeed.
+4. Show that Nancy can view the namespace (`list` will not work, but `get` will) but Ned cannot.
+5. Show generated network policy, quota, etc.
+6. Delete the network policy - it will be recreated.
+7. Delete the namespaces "--as ned". This should fail.
+8. Delete the namespace "--as nancy". This shold work.
