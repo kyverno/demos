@@ -1,3 +1,4 @@
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -42,10 +43,7 @@ spec:
               - key: "{{ scanner }}"
                 operator: Equals
                 value: trivy
-              - key: "{{ time_since('', timestamp, '') }}"
-                operator: LessThan
-                value: 24h
-              - key: "{{ Results[].Vulnerabilities[?CVSS.redhat.V3Score > `8.0`][] | length(@) }}"
+              - key: "{{ Results[].Vulnerabilities[?CVSS.redhat.V3Score >= `10.0`][] | length(@) }}"
                 operator: Equals
                 value: 0
           # check build provenance data was provided
