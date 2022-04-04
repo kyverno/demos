@@ -8,6 +8,8 @@ source <(curl -s -L https://raw.githubusercontent.com/paxtonhare/demo-magic/mast
 } 1> /dev/null 2>&1
 
 
+pe "cat rbac/00-generate-rbac.yaml"
+pe "kubectl apply -f rbac/00-generate-rbac.yaml"
 pe "cat *.yaml | kubectl apply -f -"
 pe "cat check-ns-labels.yaml"
 pe "kubectl create ns test --as=nancy"

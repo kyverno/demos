@@ -43,6 +43,9 @@ spec:
               - key: "{{ scanner }}"
                 operator: Equals
                 value: trivy
+              - key: "{{ time_since('', timestamp, '') }}"
+                operator: LessThan
+                value: 360h
               - key: "{{ Results[].Vulnerabilities[?CVSS.redhat.V3Score >= `10.0`][] | length(@) }}"
                 operator: Equals
                 value: 0

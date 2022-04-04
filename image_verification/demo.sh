@@ -36,6 +36,7 @@ pe "cosign verify ghcr.io/jimbugwadia/demo-java-tomcat"
 kubectl delete -f check_signatures.yaml 1> /dev/null 2>&1
 pe "cat check_attestations.yaml"
 pe "kubectl apply -f check_attestations.yaml"
-pe "kubectl create deployment attest-example --image=ghcr.io/jimbugwadia/demo-java-tomcat -n demo --dry-run=server -oyaml"
-pe "cosign download attestation ghcr.io/jimbugwadia/demo-java-tomcat | jq -r .payload | base64 -d | jq . | less"
+pe "kubectl create deployment attest-example --image=ghcr.io/jimbugwadia/demo-java-tomcat:v0.0.14 -n demo --dry-run=server -oyaml"
+pe "kubectl create deployment attest-example --image=ghcr.io/jimbugwadia/demo-java-tomcat:v0.0.13 -n demo --dry-run=server -oyaml"
+pe "cosign download attestation ghcr.io/jimbugwadia/demo-java-tomcat:v0.0.14 | jq -r .payload | base64 -d | jq . | less"
 kubectl delete -f check_attestations.yaml 1> /dev/null 2>&1
