@@ -1,0 +1,41 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: inject-sidecar-with-external-data
+  annotations:
+    policies.kyverno.io/title: Inject Sidecar Container
+    policies.kyverno.io/category: Sample
+    policies.kyverno.io/subject: Pod,Volume
+    policies.kyverno.io/description: >-
+      The sidecar pattern is very common in Kubernetes whereby other applications can
+      insert components via tacit modification of a submitted resource. This is, for example,
+      often how service meshes and secrets applications are able to function transparently.
+      This policy injects a sidecar container, initContainer, and volume into Pods that match
+      an annotation called `vault.hashicorp.com/agent-inject: true`.
+spec:
+  rules:
+  - name: inject-sidecar
+    match:
+      resources:
+        kinds:
+        - Deployment
+    context:
+      - name: dictionary
+        configMap:
+          name: demo
+    mutate:
+      patchStrategicMerge:
+        spec:
+          template:
+            spec:
+              containers:
+              - name: vault-agent
+                image: vault:1.5.4
+                imagePullPolicy: IfNotPresent
+                env:
+                - name: DEMO
+                  value: "{{dictionary.data.env}}"
+              initContainers:
+              - name: vault-agent-init
+                image: vault:1.5.4
+                imagePullPolicy: IfNotPresent
