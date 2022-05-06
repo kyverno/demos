@@ -1,0 +1,19 @@
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: secure-images
+spec:
+  validationFailureAction: enforce
+  rules:
+    - name: require-signatures-and-digests
+      match:
+        resources:
+          kinds:
+            - Pod
+      verifyImages:
+      - imageReferences:
+        - "*"
+        required: true
+        verifyDigest: true
+        mutateDigest: true 
