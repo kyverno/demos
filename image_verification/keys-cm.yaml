@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keys
+data:
+  production: |-
+    -----BEGIN PUBLIC KEY-----
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEAceyJtl5Tj2S3vaE4Wa6+slYukA2
+    zehFOVaS6XBy3m+6kckADvmU+X2PmznG2xDWKfLQZaw9kisL28/dxMWWow==
+    -----END PUBLIC KEY-----
+  app1: |-
+    -----BEGIN PUBLIC KEY-----
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEzDB0FiCzAWf/BhHLpikFs6p853/G
+    3A/jt+GFbOJjpnr7vJyb28x4XnR1M5pwUUcpzIZkIgSsd+XcTnrBPVoiyw==
+    -----END PUBLIC KEY-----
+  app2: |-
+    -----BEGIN PUBLIC KEY-----
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfNroaHy5/0rU696s6sPI8Fq88PQJ
+    0ZL0XNxVyjB1BMEVa1hLi7NcFHYXQYBmxN6M5yum13hOk8H+u6WG3GBPag==
+    -----END PUBLIC KEY-----

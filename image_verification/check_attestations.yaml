@@ -2,7 +2,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: attest-bom-scan-prov
+  name: attest-bom
 spec:
   validationFailureAction: enforce
   webhookTimeoutSeconds: 30
@@ -14,26 +14,30 @@ spec:
           kinds:
             - Pod
       verifyImages:
-      - image: "ghcr.io/jimbugwadia/*"
-        subject: "https://github.com/JimBugwadia/*"
-        issuer: "https://token.actions.githubusercontent.com"
+      - imageReferences:
+        - "ghcr.io/jimbugwadia/demo-java-tomcat*"
+        attestors:
+        - entries:
+          - keyless:
+              subject: "https://github.com/JimBugwadia/demo-java-tomcat/.github/workflows/publish.yaml@refs/tags/*"
+              issuer: "https://token.actions.githubusercontent.com"
+              additionalExtensions:
+                githubWorkflowTrigger: push
+                githubWorkflowSha: 73f9df28b6c67e3d4a4ffc4b75aaeed89be88b58
+                githubWorkflowName: build-sign-attest
+                githubWorkflowRepository: JimBugwadia/demo-java-tomcat
         attestations:
-          # check that an SBOM in CycloneDX format was provided
-          - predicateType: https://cyclonedx.org/BOM/v1
-          # check that a vulnerability scan report is provided, and:
-          # 1. Trivy was used to scan the image
-          # 2. No vulnerabilities with a score above 8 exist 
-          - predicateType: https://trivy.aquasec.com/scan/v2
-            conditions:
-            - all:
-              - key: "{{ scanner }}"
-                operator: Equals
-                value: trivy
-              - key: "{{ time_since('', timestamp, '') }}"
-                operator: LessThan
-                value: 360h
-              - key: "{{ Results[].Vulnerabilities[?CVSS.redhat.V3Score >= `8.0`][] | length(@) }}"
-                operator: Equals
-                value: 0
-          # check build provenance data was provided
-          - predicateType: https://example.com/provenance/v1
+        - predicateType: "https://cyclonedx.org/BOM/v1"
+        - predicateType: "https://trivy.aquasec.com/scan/v2"
+          conditions:
+          - all:
+            - key: "{{ scanner }}"
+              operator: Equals
+              value: trivy
+            - key: "{{ time_since('', timestamp, '') }}"
+              operator: LessThan
+              value: 360h
+            - key: "{{ Results[].Vulnerabilities[?CVSS.redhat.V3Score >= `8.0`][] | length(@) }}"
+              operator: Equals
+              value: 0
+        - predicateType: https://example.com/provenance/v1

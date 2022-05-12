@@ -1,0 +1,27 @@
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-image
+spec:
+  rules:
+    - name: check-signatures
+      match:
+        resources:
+          kinds:
+            - Pod
+      context:
+      - name: keys
+        configMap:
+          name: keys
+          namespace: default
+      verifyImages:
+      - imageReferences:
+        - "ghcr.io/jimbugwadia/app*"
+        attestors:
+        - count: 2
+          entries:
+          - keys: 
+              publicKeys: "{{ keys.data.production }}"
+          - keys: 
+              publicKeys: "{{ keys.data.{{request.namespace}} }}"
