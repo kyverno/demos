@@ -9,7 +9,7 @@ spec:
   validationFailureAction: enforce
   background: false
   webhookTimeoutSeconds: 30
-  failurePolicy: Fail  
+  failurePolicy: Ignore  
   rules:
     - name: verify-static-key
       match:
@@ -17,8 +17,8 @@ spec:
           kinds:
             - Pod
       verifyImages:
-      - imageReferences:
-        - "ghcr.io/kyverno/test-verify-image*"
+      - image: "ghcr.io/kyverno/test-verify-image*"
+        mutateDigest: false
         attestors:
         - count: 1
           entries:

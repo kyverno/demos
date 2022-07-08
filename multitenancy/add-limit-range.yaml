@@ -3,6 +3,9 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
   name: add-limit-range
+  annotations:
+    policies.kyverno.io/description: >-
+      Generate LimitRange based on Namespace type
 spec:
   background: false
   rules:

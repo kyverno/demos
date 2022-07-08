@@ -3,6 +3,9 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
   name: add-ns-access-controls
+  annotations:
+    policies.kyverno.io/description: >-
+      Generate Roles and RoleBindings for namespace owners
 spec:
   background: false
   rules:
@@ -36,7 +39,6 @@ spec:
       exclude:
         clusterRoles:
           - "cluster-admin"
-          - "hnc-manager-role"
       generate:
         synchronize: true
         kind: ClusterRoleBinding

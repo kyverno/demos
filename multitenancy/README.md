@@ -15,7 +15,7 @@ This demo uses generate and mutate policies to create namespaced and cluster-wid
 
 1. Install policies and roles.
 2. Create a namespace using "--as nancy" without the `type` label. It will fail.
-3.  Create a namespace using "--as nancy" with the `type` label. It will succeed.
+3. Create a namespace using "--as nancy" with the `type` label. It will succeed.
 4. Show that Nancy can view the namespace (`list` will not work, but `get` will) but Ned cannot.
 5. Show generated network policy, quota, etc.
 6. Delete the network policy - it will be recreated.

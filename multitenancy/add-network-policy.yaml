@@ -3,6 +3,9 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
   name: add-networkpolicy
+  annotations:
+    policies.kyverno.io/description: >-
+      Generate default NetworkPolicy
 spec:
   background: false
   rules:
