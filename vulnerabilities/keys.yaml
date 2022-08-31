@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keys
+  namespace: system
+data:
+  production: |-
+    -----BEGIN PUBLIC KEY-----
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEqixfPMvA2c45TKzz75TM8W0Nnc0E
+    8KdDuM5Dm0u63kALwRwET10PCti5YPeuALSLaH4npl1in09vwlQkZT7vIw==
+    -----END PUBLIC KEY-----

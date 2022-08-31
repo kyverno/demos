@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: known-vulnerabilities
+  namespace: system
+data:
+  demo-java-tomcat_v0.0.16: |- 
+    [
+      "CVE-2016-5425", 
+      "CVE-2016-6325", 
+      "CVE-2020-36518", 
+      "CVE-2022-0778", 
+      "CVE-2022-0778", 
+      "CVE-2022-24407", 
+      "CVE-2022-24407", 
+      "CVE-2022-25235", 
+      "CVE-2022-25236", 
+      "CVE-2022-29885", 
+      "GHSA-57j2-w4cx-62h2"
+    ]

@@ -1,0 +1,63 @@
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-scans
+spec:
+  validationFailureAction: enforce
+  webhookTimeoutSeconds: 30
+  failurePolicy: Fail
+  applyRules: One
+  rules:
+    - name: check-known-vulnerabilities
+      match: 
+        resources:
+          kinds:
+            - Pod
+      context:
+      - name: vulnerabilities
+        configMap:
+          name: known-vulnerabilities
+          namespace: system
+      - name: keys
+        configMap:
+          name: keys
+          namespace: system
+      verifyImages:
+      - imageReferences:
+        - "ghcr.io/jimbugwadia/demo-java-tomcat:v0.0.16"
+        attestors:
+        - entries:
+          - keys: 
+              publicKeys: "{{ keys.data.production }}"
+        attestations:
+        - predicateType: "https://attestations.nirmata.io/scan/v1"
+          conditions:
+          - all:
+            - key: "{{ matches[].vulnerability | [?severity=='High' || severity=='Critical'].id }}"
+              operator: In
+              value: "{{ vulnerabilities.data.\"{{image.name}}_{{image.tag}}\" }}"
+    - name: check-all
+      match:
+        resources:
+          kinds:
+            - Pod
+      context:
+      - name: keys
+        configMap:
+          name: keys
+          namespace: system
+      verifyImages:
+      - imageReferences:
+        - "*"
+        attestors:
+        - entries:
+          - keys: 
+              publicKeys: "{{ keys.data.production }}"
+        attestations:
+        - predicateType: "https://attestations.nirmata.io/scan/v1"
+          conditions:
+          - all:
+            - key: "{{ matches[].vulnerability | [?severity=='High' || severity=='Critical'].id | length(@) }}"
+              operator: Equals
+              value: 0
