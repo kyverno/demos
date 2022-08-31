@@ -35,7 +35,7 @@ kubectl apply -f root-pod-forbidden.yaml -n baseline --dry-run=server
 
 Beyond that, Kyverno applies the PSS checks to workloads.
 ```sh
-kubectl apply -f root-deployment-forbidden.yaml
+kubectl apply -f root-deployment-forbidden.yaml -n baseline --dry-run=server
 ```
 
 5. (optional) Verify the restricted PSa check
