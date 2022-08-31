@@ -62,12 +62,3 @@ Error from server (Forbidden): error when creating "root-pod-exempted.yaml": pod
 kubectl delete ns baseline restricted
 kubectl delete -f exempt-run-as-non-root.yaml
 ```
-
-
-helm upgrade --install policy-reporter policy-reporter/policy-reporter --create-namespace -n policy-reporter --set ui.enabled=true
-
-kubectl port-forward --address 145.40.81.69 service/policy-reporter-ui 8081:8080 -n policy-reporter
-
-http://145.40.81.69:8081/
-
-helm uninstall policy-reporter policy-reporter/policy-reporter -n policy-reporter
