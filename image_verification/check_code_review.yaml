@@ -1,0 +1,40 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: attest-code-review
+spec:
+  validationFailureAction: enforce
+  background: false
+  webhookTimeoutSeconds: 30
+  failurePolicy: Fail
+  rules:
+    - name: attest
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+      verifyImages:
+      - imageReferences:
+        - "ghcr.io/jimbugwadia/app1*"
+        attestors:
+        - entries:
+          - keys:
+              publicKeys: |-
+                -----BEGIN PUBLIC KEY-----
+                MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEzDB0FiCzAWf/BhHLpikFs6p853/G
+                3A/jt+GFbOJjpnr7vJyb28x4XnR1M5pwUUcpzIZkIgSsd+XcTnrBPVoiyw==
+                -----END PUBLIC KEY-----
+        attestations:
+          - predicateType: https://example.com/CodeReview/v1
+            conditions:
+              - all:
+                - key: "{{ repo.uri }}"
+                  operator: Equals
+                  value: "https://git-repo.com/org/app"            
+                - key: "{{ repo.branch }}"
+                  operator: Equals
+                  value: "main"
+                - key: "{{ reviewers }}"
+                  operator: In
+                  value: ["ana@example.com", "bob@example.com"]

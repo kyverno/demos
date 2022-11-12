@@ -6,7 +6,7 @@ metadata:
   annotations:
     pod-policies.kyverno.io/autogen-controllers: none
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: audit
   background: false
   webhookTimeoutSeconds: 30
   failurePolicy: Ignore  
@@ -17,8 +17,7 @@ spec:
           kinds:
             - Pod
       verifyImages:
-      - image: "ghcr.io/kyverno/test-verify-image*"
-        mutateDigest: false
+      - image: "*"
         attestors:
         - count: 1
           entries:

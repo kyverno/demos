@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/wDbACT/H4sIAAAAAAAA/+zPTU7EMAwF4K57Cl+g1J5OE6mnYMXetFFlaJwoySDg9KgjfjeAukFo+m2cKO8pclt8bMfgY3I5i85N4dTMz4euM+aIZGwbw3T1xH6pNkNEtH2/TrI9fp5nZG1Fx46sPXRmzZE1RBXg9i9/75QLpwrxTvy3uZ/eX3d5n/8ER7lxKUvQAR6ovhedBrgOU+1d4YkLDzXAwrduyesJIJ10AJ1FH2sAZe/ebjm6cY2MQQuLunQuNCCeZ/dR+Vr66/V3u93uYr0EAAD//89Kwg8ACAAAAQAA//9Y7F+w2wAAAA==
+    cosign.sigstore.dev/signature: MEUCIQCKksDb7kPLntdbvsqXo2bO/nQqpgXam0f4pHEopxEoZQIgOd+f/K2aMa7MAg5pIfODw3A/djspPLsW0hJEBXDdXvM=
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx

@@ -4,20 +4,29 @@ metadata:
   name: exempt-run-as-non-root
 spec:
   validationFailureAction: enforce
+  applyRules: One
   rules:
   - name: exempt-run-as-non-root
     match:
-      any:
+      all:
       - resources:
           kinds:
           - Pod
           namespaces:
-          - baseline
+          - exempt
     validate:
       podSecurity:
          level: restricted
-         version: v1.23
          exclude:
           - controlName: "Running as Non-root"
             images:
-              - nginx:1.23.1-alpine
+            - nginx:1.23.1-alpine
+  - name: restricted
+    match:
+      all:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      podSecurity:
+         level: restricted

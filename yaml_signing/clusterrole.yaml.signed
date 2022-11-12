@@ -1,0 +1,11 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/wD6AAX/H4sIAAAAAAAA/+zSz06DQBAGcM48xb4AMAvdbstRD9578D7CimPZP9kdTOzTG6ppTExqOBkbfpfvMGS+sJmKbag6b0M0KZEbCsZYDCcplVag97t91Y1TYhOjH035jnbMFgMA0ErNKbWC73lWq20mNw00Gurtps6glo2uMwHLq5abEmPMAF7JXv3ut/nXv1zyn8BAjyYm8q4V8Qm7Eid+8ZFOyORdedylknz1JvMjub4V95/HcPCjuSPXkxtyaxh7ZGxzIRxa0wo2iQvTE+fz0RzM8zzCQA/RT+FKTS7Ej5bL0vO+v36t1Wq1uh0fAQAA//8KjV9pAAgAAAEAAP//ICOTSfoAAAA=
+    cosign.sigstore.dev/signature: MEYCIQDxa1SsXF6NVUQOKKZnOlmujNL1tFBo65bNemuChF+G9AIhAOLL4bLjcCS8SnU6BhAqtoWjiU41a+UhaIiv3/VwLuSF
+  name: test-edit
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin

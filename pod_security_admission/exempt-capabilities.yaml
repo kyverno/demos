@@ -1,0 +1,39 @@
+validationFailureAction: enforce
+rules:
+  - name: enforce-restricted-exclude-capabilities-nginx
+    match:
+      any:
+        - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - test
+              - staging
+    exclude:
+      any:
+        - userInfo:
+            username: some-user
+    validate:
+      # this new type of rule only deals with PSS profiles
+      # as we need to check if the value in the resource
+      # is actually allowed by PSS
+      podSecurity:
+        level: restricted
+        # version must be a valid Kubernetes minor version,
+        # or `latest`.
+        version: latest
+        exclude:
+          # controlName is the Control defined in PSS
+          # See: https://kubernetes.io/docs/concepts/security/pod-security-standards/
+          # +required
+          - controlName: Capabilities
+            # Select containers you want to exclude by specifying the image
+            images:
+              - ghcr.io/example/nginx:1.2.3
+            # +optional
+            restrictedField: spec.containers[*].securityContext.capabilities.add
+            # +optional
+            values:
+              - "KILL"
+              - "SETGID"
+              - "SETUID"

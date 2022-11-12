@@ -1,0 +1,19 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: validate-pss-labels 
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+  - name: check-restricted
+    match:
+      resources:
+        kinds:
+        - Namespace
+    validate:
+      message: "the privileged pod security level is not allowed"
+      pattern:
+        metadata:
+          labels:
+            pod-security.kubernetes.io/enforce: "baseline | restricted"

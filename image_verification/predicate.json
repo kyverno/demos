@@ -1,0 +1,11 @@
+{
+    "author": "alice@example.com",
+    "repo": {
+        "branch": "main",
+        "type": "git",
+        "uri": "https://git-repo.com/org/app"
+    },
+    "reviewers": [
+        "bob@example.com"
+    ]
+}

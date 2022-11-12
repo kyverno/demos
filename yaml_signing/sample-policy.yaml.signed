@@ -1,0 +1,22 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  annotations:
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/wB4AYf+H4sIAAAAAAAA/+ySz47UMAzGe+5TWHNE6jTttlOpN4SExG1P3K3UW8zmn5x0pPL0KKVdWA6g4YJA87vYSb5+ttPUyYZaexuEYmQ3Vwmlmr80Xafah2a4DHVEGwxVwRvW63lFa4obUUqpoe9zbIZe/Rg3Lv2laLqHZhjatm26QrVNP7QFqFsL/QlLTCiFUp/Z/lL3u/N9lpf4j4CBP5JE9g5GeF6vJM6f2dfXpnxmN43wziwxkTxuv7+0lHDChGMJ4NDSCEIxCetUscWZKqGZ8wbFMgbSWXdFwxMm9u49slmE3uq8GIHckxdNJYAshmLWVrvr/s0rPwAAi0l/GrcUAN16pFXuwy+iv9kc5BFebVTw6KdtfVQ4Ti3FiDONcPqQB4lgcQXvzAraW4In8Rb8IsAukTg0QDkJwpFgb3I9n3azgCmrvlc+7uJAe5eQHclP3W2XOMLpxXHyFtmdtbf1m1P5t1/LnTt3/ie+BgAA//9unxlcAAgAAAEAAP//lUAvFngBAAA=
+    cosign.sigstore.dev/signature: MEUCICZOVY63JFxpKejSRUwEv+OKmE6mXDXmmRpffT9Ox4/7AiEAi18QyRXDm0PQk9zj936pHcjOuJBPjFFGrpCPPBB4pmk=
+  name: restrict-image-registries
+spec:
+  rules:
+  - match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    name: validate-registries
+    validate:
+      message: Images may only come from our internal enterprise registry.
+      pattern:
+        spec:
+          containers:
+          - image: registry.domain.com/*
+  validationFailureAction: enforce

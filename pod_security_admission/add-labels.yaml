@@ -1,0 +1,16 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: mutate-pss-labels     
+spec:
+  rules:
+  - name: add-restricted
+    match:
+      resources:
+        kinds:
+        - Namespace
+    mutate:
+      patchStrategicMerge:
+        metadata:
+          labels:
+            +(pod-security.kubernetes.io/enforce): restricted

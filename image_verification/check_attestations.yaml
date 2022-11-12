@@ -1,8 +1,7 @@
----
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: attest-bom
+  name: attest-bom-scan-prov
 spec:
   validationFailureAction: enforce
   webhookTimeoutSeconds: 30
@@ -15,7 +14,7 @@ spec:
             - Pod
       verifyImages:
       - imageReferences:
-        - "ghcr.io/jimbugwadia/demo-java-tomcat*"
+        - "ghcr.io/jimbugwadia/demo-java-tomcat:*"
         attestors:
         - entries:
           - keyless:
@@ -27,17 +26,22 @@ spec:
                 githubWorkflowName: build-sign-attest
                 githubWorkflowRepository: JimBugwadia/demo-java-tomcat
         attestations:
-        - predicateType: "https://cyclonedx.org/BOM/v1"
-        - predicateType: "https://trivy.aquasec.com/scan/v2"
-          conditions:
-          - all:
-            - key: "{{ scanner }}"
-              operator: Equals
-              value: trivy
-            - key: "{{ time_since('', timestamp, '') }}"
-              operator: LessThan
-              value: 360h
-            - key: "{{ Results[].Vulnerabilities[?CVSS.redhat.V3Score >= `10.0`][] | length(@) }}"
-              operator: Equals
-              value: 0
-        - predicateType: https://example.com/provenance/v1
+          # check that an SBOM in CycloneDX format was provided
+          - predicateType: https://cyclonedx.org/BOM/v1
+          # check that a vulnerability scan report is provided, and:
+          # 1. Trivy was used to scan the image
+          # 2. No vulnerabilities with a score above 8 exist 
+          - predicateType: https://trivy.aquasec.com/scan/v2
+            conditions:
+            - all:
+              - key: "{{ scanner.uri }}"
+                operator: Equals
+                value: "pkg:github/aquasecurity/trivy@0.31.*"
+              - key: "{{ time_since('','{{metadata.scanFinishedOn}}','') }}"
+                operator: LessThanOrEquals
+                value: 720h
+              - key: "{{ scanner.result.Results[].Vulnerabilities[?CVSS.redhat.V3Score > `8.0`][] | length(@) }}"
+                operator: Equals
+                value: 0
+          # check build provenance data was provided
+          - predicateType: https://example.com/provenance/v1
