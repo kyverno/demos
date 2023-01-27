@@ -1,0 +1,33 @@
+apiVersion: kyverno.io/v2beta1
+kind: ClusterPolicy
+metadata:
+  name: replace-image-registry
+spec:
+  background: false
+  validationFailureAction: Enforce
+  rules:
+  - name: replace-dns-suffix
+    match:
+      any:
+      - resources:
+          kinds:
+            - Ingress
+    mutate:
+      foreach:
+      - list: request.object.spec.rules
+        patchesJson6902: |-
+          - path: /spec/rules/{{elementIndex}}/host
+            op: replace
+            value: {{replace('{{element.host}}', '.foo.com', '.newfoo.com', `1`)}}
+      - list: request.object.spec.tls
+        patchesJson6902: |-
+          - path: /spec/tls/{{elementIndex}}/secretName
+            op: replace
+            value: {{replace('{{element.secretName}}', '.foo.com', '.newfoo.com', `1`)}}         
+      - list: request.object.spec.tls
+        foreach:
+        - list: "element.hosts"
+          patchesJson6902: |-
+            - path: "/spec/tls/{{elementIndex0}}/hosts/{{elementIndex1}}"
+              op: replace
+              value: "{{replace_all('{{element}}', '.foo.com', '.newfoo.com')}}"

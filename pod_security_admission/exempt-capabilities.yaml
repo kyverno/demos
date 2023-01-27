@@ -31,9 +31,12 @@ rules:
             images:
               - ghcr.io/example/nginx:1.2.3
             # +optional
-            restrictedField: spec.containers[*].securityContext.capabilities.add
-            # +optional
-            values:
-              - "KILL"
-              - "SETGID"
-              - "SETUID"
+            #
+            # restrictedField and values are not supported in 1.8 - may be added back in 1.9
+            #
+            # restrictedField: spec.containers[*].securityContext.capabilities.add
+            # # +optional
+            # values:
+            #   - "KILL"
+            #   - "SETGID"
+            #   - "SETUID"

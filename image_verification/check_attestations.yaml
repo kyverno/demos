@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: attest-bom-scan-prov
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   webhookTimeoutSeconds: 30
   failurePolicy: Fail  
   rules:
@@ -20,9 +20,10 @@ spec:
           - keyless:
               subject: "https://github.com/JimBugwadia/demo-java-tomcat/.github/workflows/publish.yaml@refs/tags/*"
               issuer: "https://token.actions.githubusercontent.com"
+              rekor:
+                url: https://rekor.sigstore.dev
               additionalExtensions:
                 githubWorkflowTrigger: push
-                githubWorkflowSha: 73f9df28b6c67e3d4a4ffc4b75aaeed89be88b58
                 githubWorkflowName: build-sign-attest
                 githubWorkflowRepository: JimBugwadia/demo-java-tomcat
         attestations:
@@ -39,7 +40,7 @@ spec:
                 value: "pkg:github/aquasecurity/trivy@0.31.*"
               - key: "{{ time_since('','{{metadata.scanFinishedOn}}','') }}"
                 operator: LessThanOrEquals
-                value: 720h
+                value: 72h
               - key: "{{ scanner.result.Results[].Vulnerabilities[?CVSS.redhat.V3Score > `8.0`][] | length(@) }}"
                 operator: Equals
                 value: 0

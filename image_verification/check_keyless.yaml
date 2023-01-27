@@ -3,8 +3,6 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
   name: check-image-keyless
-  annotations:
-    pod-policies.kyverno.io/autogen-controllers: none
 spec:
   validationFailureAction: enforce
   background: false
@@ -18,14 +16,17 @@ spec:
             - Pod
       verifyImages:
       - imageReferences:
-        - "ghcr.io/jimbugwadia/demo-java-tomcat:*"
+        - "*"
         attestors:
-        - entries:
+        - count: 1
+          entries:
           - keyless:
               subject: "https://github.com/JimBugwadia/demo-java-tomcat/.github/workflows/publish.yaml@refs/tags/*"
               issuer: "https://token.actions.githubusercontent.com"
+              rekor:
+                url: https://rekor.sigstore.dev
               additionalExtensions:
                 githubWorkflowTrigger: push
-                githubWorkflowSha: 73f9df28b6c67e3d4a4ffc4b75aaeed89be88b58
+                #githubWorkflowSha: c7645284fa7aebe554618eee879b4d6947f8564e
                 githubWorkflowName: build-sign-attest
                 githubWorkflowRepository: JimBugwadia/demo-java-tomcat

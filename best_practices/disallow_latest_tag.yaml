@@ -16,17 +16,6 @@ spec:
   validationFailureAction: enforce
   background: true
   rules:
-  - name: require-image-tag
-    match:
-      resources:
-        kinds:
-        - Pod
-    validate:
-      message: "An image tag is required."
-      pattern:
-        spec:
-          containers:
-          - image: "*:*"
   - name: validate-image-tag
     match:
       resources:
@@ -37,4 +26,4 @@ spec:
       pattern:
         spec:
           containers:
-          - image: "!*:latest"
+          - image: "!*:latest & *:*"

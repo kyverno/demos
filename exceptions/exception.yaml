@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v2alpha1
+kind: PolicyException
+metadata:
+  name: allow-insecure-pod
+spec:
+  exceptions:
+    - policyName: disallow-capabilities-strict
+      ruleNames:
+        - require-drop-all
+    - policyName: disallow-privilege-escalation
+      ruleNames:
+        - privilege-escalation
+    - policyName: require-run-as-nonroot
+      ruleNames:
+        - run-as-non-root
+    - policyName: restrict-seccomp-strict
+      ruleNames:
+        - check-seccomp-strict
+  match:
+    any:
+      - resources:
+          namespaces:
+            - test

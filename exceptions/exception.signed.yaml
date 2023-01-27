@@ -1,0 +1,26 @@
+apiVersion: kyverno.io/v2alpha1
+kind: PolicyException
+metadata:
+  annotations:
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/wBpAZb+H4sIAAAAAAAA/+yTwdKTMBDHOfMUeYGUQGmr3L06nryvYaddG5KYDVV8eifQMrWOqB1nvvlm+F0ywG//ZMNSxM4X2nU+IDPZo4wQ5PF7rd6+qapqqw4FftPoIzm7GaAz2RMopdRht0tredip+zVRqnqflfV2Xyev3maqKpWqM6Geedm/0nOEkCn1mbpF70/Pr83M6ysBPH3EwORsI87DBYN1G3LFpQLjT1DmZ7JtIz44Q3p4d5uEvMMILURociEsdNgIMMZ9lWQZdR9Qetfm7FEnYR4gTldCSOHHuPdjYUs81Wrw8IkMRUKWHAPpOOpChN5gkq/1U0bALz0FlG1wXoIxS9E+0IUMHlEiazAw9rCQ/Vv/5/zbFkJvJbC0zgbnljc9m3JWHzOn1iWjTr/lX5yEPqE+/+p3EPVp8sAOt4J0cOz6oO8zpo/IHh7uJj0ix/ylp3RlZWVl5X/zIwAA//9u5VMQAAoAAAEAAP//vQZBdWkBAAA=
+    cosign.sigstore.dev/signature: MEYCIQDyHZ7Ggb+ZWVEjo4DoOZLCClsYDv/Kih0EP7XRgNo6KQIhALa7dhEJFKUDNUmR04DHELSJNDZsos7Tgr58pNwfFhID
+  name: allow-insecure-pod
+spec:
+  exceptions:
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - require-drop-all
+  - policyName: disallow-privilege-escalation
+    ruleNames:
+    - privilege-escalation
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - run-as-non-root
+  - policyName: restrict-seccomp-strict
+    ruleNames:
+    - check-seccomp-strict
+  match:
+    any:
+    - resources:
+        namespaces:
+        - test

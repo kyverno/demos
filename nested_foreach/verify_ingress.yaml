@@ -1,0 +1,20 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: replace-image-registry
+spec:
+  background: false
+  rules:
+    - name: replace-dns-suffix
+      match:
+        any:
+          - resources:
+              kinds:
+                - Ingress
+      validate:
+        foreach:
+          - list: "request.object.spec.rules"
+            foreach:
+            - list: "{{element}}.http.paths"
+              pattern:
+                path: "/"   
