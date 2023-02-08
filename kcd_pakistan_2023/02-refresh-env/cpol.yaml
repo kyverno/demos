@@ -1,0 +1,38 @@
+apiVersion: kyverno.io/v2beta1
+kind: ClusterPolicy
+metadata:
+  name: refresh-env-var-in-pods
+spec:
+  mutateExistingOnPolicyUpdate: false
+  rules:
+  - name: refresh-from-secret-env
+    match:
+      any:
+      - resources:
+          kinds:
+          - Secret
+          selector:
+            matchLabels:
+              kyverno.io/watch: "true"
+    preconditions:
+      all:
+      - key: "{{request.operation}}"
+        operator: Equals
+        value: UPDATE
+    mutate:
+      targets:
+        - apiVersion: apps/v1
+          kind: Deployment
+          namespace: "{{request.namespace}}"
+      patchStrategicMerge:
+        spec:
+          template:
+            metadata:
+              annotations:
+                corp.org/random: "{{ random('[0-9a-z]{8}') }}"
+            spec:
+              containers:
+              - env:
+                - valueFrom:
+                    secretKeyRef:
+                      <(name): "{{ request.object.metadata.name }}"

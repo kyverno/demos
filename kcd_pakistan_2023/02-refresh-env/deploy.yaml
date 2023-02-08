@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bluebusybox
+  namespace: existing
+  labels:
+    app: bluebusybox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bluebusybox
+  template:
+    metadata:
+      labels:
+        app: bluebusybox
+    spec:
+      containers:
+      - image: busybox:1.28
+        name: busybox
+        command: [sleep, 1d]
+        env:
+        - name: TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: bluesecret
+              key: token
+        - name: ENDPOINT
+          value: resource.corp.org
