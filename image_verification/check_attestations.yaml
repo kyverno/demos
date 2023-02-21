@@ -37,12 +37,12 @@ spec:
             - all:
               - key: "{{ scanner.uri }}"
                 operator: Equals
-                value: "pkg:github/aquasecurity/trivy@0.31.*"
+                value: "pkg:github/aquasecurity/trivy@0.37.*"
               - key: "{{ time_since('','{{metadata.scanFinishedOn}}','') }}"
                 operator: LessThanOrEquals
                 value: 72h
-              - key: "{{ scanner.result.Results[].Vulnerabilities[?CVSS.redhat.V3Score > `8.0`][] | length(@) }}"
-                operator: Equals
-                value: 0
+              - key: "{{ scanner.result.Results[].Vulnerabilities[].Severity }}"
+                operator: AllNotIn 
+                value: ["CRITICAL", "HIGH"]
           # check build provenance data was provided
           - predicateType: https://example.com/provenance/v1
