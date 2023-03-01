@@ -1,0 +1,21 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  annotations:
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/wBvAZD+H4sIAAAAAAAA/+ySz4vVMBDHe+5fMV4sFNKmfd2KOSmC573ofTYda9j8KMn0yRP/eElrdVlEFzyI+D6XJPPrOxOmZbe0OrglUkrGz4Ixivmz0OP48q7TJ5pO1E4mobXhk7DIlFgwzs0FnS2ehpRSjsOwnVLKx6cce1l0w6nvX/Q3NzmuH7pBFiCfWP+PWBNjLKSMIfCv4n7nfzzcPwIu5j3FZIJXcH85U/ShMaE9d+W98ZOCN3ZNTPE2WKMvpSPGCRlVCeDRkYKfrEYq00I6h8TVUsoXAQ5Zf8zXTKQU1qh3305We/AUcBum7bXLnNGaCZmEcThTVtmch/lIdJQSzqTgXd5lQHAr450l2NKAcQZq5gaqvdsKTAIfGLYRaGq+lVmQmaL/0c4x0IEOntF4iumhVewyCqpa1fAcntVq14EvUL+qq/J7wyb4t2jsGum15u3vyX8IUVP5t/fhypUr/w9fAwAA///doZW2AAgAAAEAAP//u2zPYW8BAAA=
+    cosign.sigstore.dev/signature: MEQCICZhc7dtkxqZuS86bQrsQ03iRwH2htUEvRlwRhtZ70ZHAiBdWFegueg38u6XTA8yv4GmXolPHdJ5penayfeNEzwDYQ==
+  name: disallow-latest-tags
+spec:
+  rules:
+  - match:
+      resources:
+        kinds:
+        - Pod
+    name: validate-image-tag
+    validate:
+      message: Using a mutable image tag e.g. 'latest' is not allowed.
+      pattern:
+        spec:
+          containers:
+          - image: '*:* & !*:latest | *@*'
+  validationFailureAction: enforce
