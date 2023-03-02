@@ -50,21 +50,7 @@ kind: ConfigMap
 
 Install Kyverno by following the instructions [here](https://kyverno.io/docs/installation/). 
 
-Once Kyverno is installed, update the kyverno:generate clusterrole so that the ArgoCD Application resource can be created.
-
-```yaml
-- apiGroups:
-  - argoproj.io
-  resources:
-  - applications
-  verbs:
-  - create
-  - update
-  - patch
-  - delete
-```
-
-Now, apply the generate policies that will be used to create the ArgoCD application that creates the EKS cluster and register the cluster with ArgoCD.
+Now, apply the policies to register the created cluster with ArgoCD.
 
 ```console
 kubectl create -f policies/mgmt-cluster
@@ -90,13 +76,12 @@ spec:
     - subnetIds: [ "subnet-0dff3fad15acc9156", "subnet-0ed4ba827d3066107"]
   providerConfigRef:
     name: default
-ritesh@MacBook-Pro-4 cluster %
 ```
 
-This should initiate creation of the r. Within a few seconds, you should be able to go to your Amazon EKS console and view that the cluster is being created. You can also verify the cluster creation in your management cluster using the commands:
+This should initiate creation of the cluster. Within a few seconds, you should be able to go to your Amazon EKS console and view that the cluster is being created. You can also verify the cluster creation in your management cluster using the commands:
 
 ```console
-kubectl get cluster -n <namespace>
+kubectl get clusters.eks.aws.upbound.io -n <namespace>
 ```
 
 The cluster creation should take around 10-15 minutes. Once the cluster is created (in ACTIVE status), the register-cluster policy will trigger to register the newly created EKS cluster with ArgoCD so that the cluster add-ons can be deployed. This can be verified on the ArgoCD web console or by accessing the newly created cluster
