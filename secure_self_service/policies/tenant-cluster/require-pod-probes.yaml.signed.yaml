@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  annotations:
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/wB6AYX+H4sIAAAAAAAA/+ySwYrbMBCGffZTzG1PSuSsa4MPhVLoqYdAofdZaZqK2Bp3JBnSpy+y422yhTbQw7KQ7yKP558Z/Wi2cRi3hodRKATnDyqiqMNPhe2OmqahVlO1FfqRnJAa2apR+InC5oRDX9yI1lo3dT2fWuuXp25bXVT1427X1lVTvSv07rGp2wL0rQP+hxQiSqG1MMe/6f6Vf2nujYCj+0oSHPsOjqeJxPPG8XaqyqPztoOPfQqRZM+9M6dyoIgWI3YlgMeBOvhzNcowksmCJzTHg3DKbaIkKgEk9RRyTsGA0XzPnxmhwEnMklvI4y9CBXu2c7TMnbB3FiOp3k3kKYR9Hq6E0LrncNavyrXXQCHggTr4fK4E9BaeC2FxASi0mrObc+mIMZL437dara4Y9hGdJwmXfxVcXfIyNXclcWy/kOHsGB7e64crxbWn26rPph37T+j6JPTBxPmNyX9jMVS+9t7duXPn9fkVAAD//4QJUEAACAAAAQAA//9APO3KegEAAA==
+    cosign.sigstore.dev/signature: MEUCIH9WEu++NG0tBlMB1Bjz18d1jdqjhygwsOa3HUiSJDn9AiEAhxRt861kTik8MNDXpxHpCcFPr3glh/3NljApFWuPgK4=
+  name: require-pod-probes
+spec:
+  background: true
+  rules:
+  - match:
+      resources:
+        kinds:
+        - Pod
+    name: validate-livenessProbe-readinessProbe
+    validate:
+      message: Liveness and readiness probes are required.
+      pattern:
+        spec:
+          containers:
+          - livenessProbe:
+              periodSeconds: '>0'
+            readinessProbe:
+              periodSeconds: '>0'
+  validationFailureAction: enforce
