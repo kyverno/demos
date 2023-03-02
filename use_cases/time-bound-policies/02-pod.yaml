@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: busybox
+  name: mypod
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - name: busybox
+    image: busybox:1.28
+    securityContext:
+      allowPrivilegeEscalation: true
+    args:
+    - sleep
+    - 1d
