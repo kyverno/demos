@@ -33,6 +33,11 @@ The pod `root-pod-forbidden` creation will be blocked as the policy does not exe
 kubectl apply -f root-pod-forbidden.yaml -n baseline --dry-run=server
 ```
 
+Beyond that, Kyverno applies the PSS checks to workloads.
+```sh
+kubectl apply -f root-deployment-forbidden.yaml -n baseline --dry-run=server
+```
+
 5. (optional) Verify the restricted PSa check
 
 Create a namespace that enforces the restricted PSS control:

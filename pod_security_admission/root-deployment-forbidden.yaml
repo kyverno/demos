@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: nginx
+  name: root-deployment-forbidden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nginx
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        securityContext:
+            runAsNonRoot: false
+            seccompProfile:
+                type: RuntimeDefault
+            allowPrivilegeEscalation: false
+            capabilities:
+                drop:
+                    - ALL
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
