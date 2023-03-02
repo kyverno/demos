@@ -1,3 +1,4 @@
+#!/bin/bash
 kubectl create namespace crossplane-system
 helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
 helm list -n crossplane-system
