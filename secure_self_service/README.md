@@ -39,7 +39,7 @@ In ArgoCD, change the resource tracking method to annotation so that it does not
 kubectl edit cm -n argocd argocd-cm
 ```
 
-```console
+```yaml
 apiVersion: v1
 data:
   application.resourceTrackingMethod: annotation
@@ -52,7 +52,7 @@ Install Kyverno by following the instructions [here](https://kyverno.io/docs/ins
 
 Once Kyverno is installed, update the kyverno:generate clusterrole so that the ArgoCD Application resource can be created.
 
-```console
+```yaml
 - apiGroups:
   - argoproj.io
   resources:
@@ -76,7 +76,7 @@ The register-cluster policy registers newly created EKS clusters with ArgoCD so 
 
 Once everything is in place, we can verify the setup. Apply the cluster creation request to your cluster.
 
-```console
+```yaml
 apiVersion: eks.aws.upbound.io/v1beta1
 kind: Cluster
 metadata:
