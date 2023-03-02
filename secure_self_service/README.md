@@ -39,7 +39,7 @@ In ArgoCD, change the resource tracking method to annotation so that it does not
 kubectl edit cm -n argocd argocd-cm
 ```
 
-```console
+```yaml
 apiVersion: v1
 data:
   application.resourceTrackingMethod: annotation
@@ -62,7 +62,7 @@ The register-cluster policy registers newly created EKS clusters with ArgoCD so 
 
 Once everything is in place, we can verify the setup. Apply the cluster creation request to your cluster.
 
-```console
+```yaml
 apiVersion: eks.aws.upbound.io/v1beta1
 kind: Cluster
 metadata:
