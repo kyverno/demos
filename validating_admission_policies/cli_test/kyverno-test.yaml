@@ -1,0 +1,16 @@
+name: check_deployment_replicas
+policies:
+  - check_deployment_replicas.yaml
+resources:
+  - deployment.yaml
+results:
+  - policy: check-deployment-replicas
+    rule: object.spec.replicas <= 5
+    resource: nginx-deployment-1
+    kind: Deployment
+    result: pass
+  - policy: check-deployment-replicas
+    rule: object.spec.replicas <= 5
+    resource: nginx-deployment-2
+    kind: Deployment
+    result: pass
