@@ -13,4 +13,4 @@ results:
     rule: object.spec.replicas <= 5
     resource: nginx-deployment-2
     kind: Deployment
-    result: pass
+    result: fail
