@@ -1,0 +1,74 @@
+apiVersion: kyverno.io/v2beta1
+kind: ClusterPolicy
+metadata:
+  name: check-subject
+spec:
+  validationFailureAction: Enforce
+  background: false
+  rules:
+  - name: check-chip
+    match:
+      any:
+      - resources:
+          kinds:
+          - ConfigMap
+    context:
+      - name: subjectaccessreview
+        apiCall:
+          service:
+            urlPath: https://kubernetes.default.svc.cluster.local/apis/authorization.k8s.io/v1/subjectaccessreviews
+            requestType: POST
+            caBundle: |-
+              -----BEGIN CERTIFICATE-----
+              MIIDITCCAgmgAwIBAgIBAjANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwptaW5p
+              a3ViZUNBMB4XDTIzMDIwNDAyMzAwMFoXDTI2MDIwNDAyMzAwMFowMTEXMBUGA1UE
+              ChMOc3lzdGVtOm1hc3RlcnMxFjAUBgNVBAMTDW1pbmlrdWJlLXVzZXIwggEiMA0G
+              CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCrSktDFT/RsDVvlP3ngIWuTsV2PytO
+              r2XGJgGR07sLSCHjexGIqLegY3qnfs0G8aYug+RIAVc2sHPbwYQOD5snNBC0XNYi
+              4b3lAc5qSau4nkanHeMwgn/aP1p7By4+AgTnyuCgA2RiVwWEi4vqbgU7pz8URhdv
+              Rb8THTSzGOfP6KHyCGNS0HWb4q4AeWjJT2Lv6YGoblIM4Oeifjc9LFoMkke/zhTJ
+              Fnj++qR9vRigQeGlJbe8BzM6APtQLIcUi6ZJCTDHst8L4MlcD0BSSxHrq8wvJ0OD
+              O3/6kDGjiUYS3m3kvxSl1JA0ykgUFzjB9m7WKSDSY1yoe10e53u7ELPbAgMBAAGj
+              YDBeMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUH
+              AwIwDAYDVR0TAQH/BAIwADAfBgNVHSMEGDAWgBTVKGNqD00kvT6tgDfzznOJ7Yge
+              ZDANBgkqhkiG9w0BAQsFAAOCAQEARTJvFRxxio+p9/iJLvQZmMEsvWQAaVUImtb4
+              6rcM1n0LtpsCvOEDKTNiSZHcyX70YXY0lo26bRMhymLA+s9H/HVRfT5CD5a25IMV
+              clgd0Iv/XdudFnsWhVCadeyOiEwXR5QNosUpJ0Fb2tTApQbkWGkygydpE4mAQX7T
+              pTn2g95jBE2VIPky7KzJgA01YYE1hGfKfrj/t+MDHiO8f0bG0msGppz4KMTmfDdA
+              npDfnJbj3NEWBT/7QzQKwQ8X3BJeZEIzvsYu2x84CkO9m0ao/vy5nE3MehL6P1Vo
+              wf+t9XNjmC3LgEZxqSBpUm97JEc5YQdhFtC/q+jhbXomoPDykg==
+              -----END CERTIFICATE-----
+              -----BEGIN CERTIFICATE-----
+              MIIDBjCCAe6gAwIBAgIBATANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwptaW5p
+              a3ViZUNBMB4XDTIzMDIwNDAyMzAwMFoXDTMzMDIwMjAyMzAwMFowFTETMBEGA1UE
+              AxMKbWluaWt1YmVDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALGh
+              sEMsIuG70PJyCaob3u2gbON1JNwVxYkvLHkyoixtQMtBuGFA/hS5stZq5MJv2MgE
+              cQ/RgYQn0jL4dRb6MG/aM0gXoDMVOCLJlLo61GFkvayfyT+8wsFybKZ/2zOfr4AP
+              gFHpxiN7yYKTEe260qfFtekjZ8bojk448gUWYQ1lWjecxbFaJyJdWJQuaGiytsqJ
+              7dv0V2Vx0bM5fV13XyM+bBNjcJFPbP+TkNsWYm9tw/8CPNsOFVrUCehQ943GP7KD
+              6lTm2Zy5wtd/H2TQ1OYCiTy4HQ/FRYqfRktawxyOiu9vrAgjnMkP8KgmxvJZoIoO
+              EkBGnf4t8qdMT0iQ5u8CAwEAAaNhMF8wDgYDVR0PAQH/BAQDAgKkMB0GA1UdJQQW
+              MBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQW
+              BBTVKGNqD00kvT6tgDfzznOJ7YgeZDANBgkqhkiG9w0BAQsFAAOCAQEAPdvSgg/k
+              shYVPhT65HF1vMZGHG+hIaFT0G5Tb3/o18iHi6r84bslz8Csybxtzr0OKdozH//o
+              I/4A7AP5YMmi+gExX1QYU9g0KiEO5YtxZuDWfggsU/Xs5G1+hye/NFLklO5nSERW
+              1Sr+YhCjst3LkOMFTSpdK63/mXMoQrQewbI3szWhOgMTHaf78IDV4xQfGCP49/gj
+              7EAdnmA3knpZyvpeu3r0TWiBEYJp/G4i4QD+Z35JQLb42wcaA8dKMcF4GIJZ4mf+
+              6Ir6vp8jhllh6CZQXRAgbXZCFOKL49Pq99J+nQXoUZozCOZDfb0lLJvqUuHQakdj
+              Yy8QpB/IcKc4wQ==
+              -----END CERTIFICATE-----
+            data:
+            - key: kind
+              value: SubjectAccessReview
+            - key: apiVersion
+              value: authorization.k8s.io/v1
+            - key: spec
+              value: {"resourceAttributes":{"namespace":"default","verb":"get","group":"","resource": "pods"}, "user":"system:serviceaccount:kyverno:kyverno-admission-controller"}
+    validate:
+      message: "User is not authorized."
+      deny:
+        conditions:
+          any:
+          - key: "{{ subjectaccessreview.status.allowed }}"
+            operator: NotEquals
+            value:  true

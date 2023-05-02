@@ -1,0 +1,40 @@
+apiVersion: kyverno.io/v2beta1
+kind: ClusterPolicy
+metadata:
+  name: check-subject
+spec:
+  validationFailureAction: Enforce
+  background: false
+  rules:
+  - name: check-sar
+    match:
+      any:
+      - resources:
+          kinds:
+          - ConfigMap
+    context:
+      - name: subjectaccessreview
+        apiCall:
+          urlPath: /apis/authorization.k8s.io/v1/subjectaccessreviews
+          method: POST
+          data:
+          - key: kind
+            value: SubjectAccessReview
+          - key: apiVersion
+            value: authorization.k8s.io/v1
+          - key: spec
+            value:
+              resource: "namespace"
+              resourceAttributes:
+                namespace: "{{ request.namespace }}"
+                verb: "delete"
+                group: ""
+              user: "{{ request.userInfo.username }}"
+    validate:
+      message: "not authorized."
+      deny:
+        conditions:
+          any:
+          - key: "{{ subjectaccessreview.status.allowed }}"
+            operator: NotEquals
+            value:  true
