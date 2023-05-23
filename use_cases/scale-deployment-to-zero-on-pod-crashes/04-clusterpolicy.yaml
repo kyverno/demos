@@ -1,0 +1,41 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: scale-deployment-zero
+spec:
+  rules:
+  - name: annotate-deployment-rule
+    match:
+      any:
+      - resources:
+          kinds:
+          - v1/Pod.status
+    preconditions:
+      all:
+      - key: "{{request.operation || 'BACKGROUND'}}"
+        operator: Equals
+        value: UPDATE
+      - key: "{{request.object.status.containerStatuses[0].restartCount || `0`}}"
+        operator: GreaterThan
+        value: 2
+    context:
+    - name: rsname
+      variable:
+        jmesPath: "request.object.metadata.ownerReferences[0].name"
+        default: ''
+    - name: deploymentname
+      apiCall:
+        urlPath: "/apis/apps/v1/namespaces/{{request.namespace}}/replicasets"
+        jmesPath: "items[?metadata.name=='{{rsname}}'].metadata.ownerReferences[0].name | [0]"
+    mutate:
+      targets:
+        - apiVersion: apps/v1
+          kind: Deployment
+          name: "{{deploymentname}}"
+          namespace: "{{request.namespace}}"
+      patchStrategicMerge:
+        metadata:
+          annotations:
+            sre.corp.org/troubleshooting-needed: "true"
+        spec:
+          replicas: 0

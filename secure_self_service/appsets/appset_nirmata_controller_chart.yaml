@@ -1,0 +1,47 @@
+kind: ApplicationSet
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: nirmata-controller
+  namespace: argocd
+spec:
+  generators:
+  - clusters:
+      selector:
+        matchLabels:
+          clusterType: tenant        
+            # A key-value map for arbitrary parameters
+      values:
+        # If `my-custom-annotation` is in your cluster secret, `revision` will be substituted with it.
+        # clusterId: '{{ .metadata.labels.clusterUuid }}' 
+  template: 
+    metadata:
+      name: '{{name}}-nirmata-controller'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io   
+      annotations:
+        argocd.argoproj.io/sync-wave: "3"
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/nirmata/demo-repository
+        targetRevision: HEAD
+        path: ack-gitops-kyverno/addons/nirmata-controller/chart
+        helm:
+          values: |
+            cluster:
+              name: {{name}}
+            apiToken: ""
+      destination:
+        server: '{{server}}'
+        namespace: nirmata
+      syncPolicy:
+        syncOptions:
+        - Replace=true
+        automated:
+          selfHeal: true  
+        retry:
+          limit: 30
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m0s

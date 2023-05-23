@@ -1,0 +1,13 @@
+apiVersion: eks.aws.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  name: crossplane-cluster
+  annotations:
+spec:
+  forProvider: 
+    region: us-west-1
+    roleArn: arn:aws:iam::844333597536:role/eks-role
+    vpcConfig: 
+    - subnetIds: [ "subnet-0dff3fad15acc9156", "subnet-0ed4ba827d3066107"]
+  providerConfigRef:
+    name: default

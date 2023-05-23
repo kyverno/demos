@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  annotations:
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/wDgAR/+H4sIAAAAAAAA/+ySX2/aMBTF88yn8DtycUIIG1IfAqQrf1pBxdjgzTiX4JHYqe0QBe3DT6Flo2m1fy/TpPxefHXukX1uclsmSVtMJqkCrbmIsKEKR0fs0E743vNoZ+N0W5pHAkKcypgzDvqqoEls/T6EEOK57ukkhFRP2/Zcy3bbjtO1vbbTsYjTtruehcgfvPHXZNpQZRGipDQ/8/2qXx3uP4GmfAlKcyl6aF8cQAl5xWXrYDf2XIQ9NIgzbUDNyl9fNBIwNKSG9hoICZpADx1ozENqACdU8C1ooxs6BVYaVBaDLguMEmrYrixLqCjOJUYKtMwUezKeKZ9+IeBKjsvOhfQUScFjxhXgytaeHOe458u/p/7xGjUGtJHqQsIIhFEcKpn2ULxQStJsE3M2KTvoK640EcIl/eDD6B7NPvanowGaBKuT+Mp6d7PPg3x1O5Hr0fELGfjz1ei5HvpzNpxHflD0o3eFDB23lY8Y68wf4+XUDLbTpreAVxc2RR7OwsXhbmP7fC0c99hfyNvxcn2Yh6tp9PDJ3+zIOGx6412Q62EiPj+oeNlV2/z6+u1BgvvhG2M8f2MuxQ3lcabAZ+a0XyC2UjFo/Oudr6mpqamxrG8BAAD//zG2VJ4ACgAAAQAA///TTQ534AEAAA==
+    cosign.sigstore.dev/signature: MEYCIQD0RUelCFG+DvntD1qm9blv4wcXFNXGXi7rKSNHxtivxgIhAM1DWgrI4xaKOfxbIwHtDEXaFY4Q5L6GFfvk/+QyqRSn
+  name: validate-manifests
+spec:
+  rules:
+  - match:
+      any:
+      - resources:
+          kinds:
+          - ClusterPolicy
+          - Policy
+    name: require-signed-policies
+    validate:
+      manifests:
+        attestors:
+        - entries:
+          - keys:
+              publicKeys: |-
+                -----BEGIN PUBLIC KEY-----
+                MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEyBg8yod24/wIcc5QqlVLtCfL+6Te
+                +nwdPdTvMb1AiZn24zBToHJVZvQdYLgRWAbh0Jd+6JhEwsDmnXRrlV7rfw==
+                -----END PUBLIC KEY-----
+  validationFailureAction: enforce

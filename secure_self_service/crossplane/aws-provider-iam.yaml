@@ -1,0 +1,18 @@
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: aws-config
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::844333597536:role/npm-customer-demo-crossplane-role
+spec:
+  args:
+    - --debug
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws:v0.18.0
+  controllerConfigRef:
+    name: aws-config

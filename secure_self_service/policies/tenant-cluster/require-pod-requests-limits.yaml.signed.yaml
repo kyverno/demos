@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  annotations:
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/wB/AYD+H4sIAAAAAAAA/+ySzW7UMBDHc85TzBnJu0427aJcEKrEeS9wH5zpYm1sh/F4peXpUT4MVajaCwJVyu9ie/7zmcxe3LA3wQ1MMVp/VoKszj8UYXd8rJumeU+HPdP3ZJnUEDo13ilKVL11VuLuhq4vXkZrre+bZjq11uuz0rUuquZQ18fmUB3vCl3f3euqAP1K3r9CioJcaM0hyEt+r+nr4d4IONgvxNEG38LldiX2YWfD/lqVF+u7Fh76FIX4FHprbqUjwQ4F2xLAo6MW8mqs1qKMA5nR6yuay5lDGnMJJyoBOPUUR02BQzHfxusIUwyJzazNjD08eSo4hW56zcWv2NsOZay+hE5iNudARzHimVp4OH0G9B04coFvvwpCbn4S5wEAmfJw3W5JNKAIsf/dUJ4yY4IXtJ44PrWq50abmYutrbB02MKHdyspt/pniBnSM/6rVMunscF/Qtsnpo9Gpn9P/jGwofJ/7+PGxsbGxr/hZwAAAP//heAp2wAKAAABAAD//+GoSAp/AQAA
+    cosign.sigstore.dev/signature: MEYCIQDTrEgvWZoIvk7plcIjUvzmzWe7HY6c4KWbLMkn1C79fAIhAOtcCqwf1jn5pbDKuTf9DxIeTSMoQussUeYsH0dvhUAG
+  name: require-requests-limits
+spec:
+  background: true
+  rules:
+  - match:
+      resources:
+        kinds:
+        - Pod
+    name: validate-resources
+    validate:
+      message: CPU and memory resource requests and limits are required.
+      pattern:
+        spec:
+          containers:
+          - resources:
+              limits:
+                memory: ?*
+              requests:
+                cpu: ?*
+                memory: ?*
+  validationFailureAction: enforce

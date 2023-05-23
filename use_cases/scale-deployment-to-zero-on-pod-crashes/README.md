@@ -1,0 +1,5 @@
+# Description
+
+This use case illustrates how Kyverno's mutation for existing resources can be used to scale a Deployment to zero in case too many of its Pods have restarted. In cases where Pods are in CrashLoopBackoff and restart due to problems, sometimes no amount of restarting will solve the problem and manual intervention may be required. Rather than allowing endless restarts, the Deployment can be scaled to zero to decrease environmental churn. This demo will scale a Deployment to zero and write an annotation to it signifying to platform teams that additional troubleshooting may be required if any of its Pods have restarted 3 or more times.
+
+After deploying all the files in order, watch for Deployments in the destination Namespace as Pods restart. When Kyverno acts, you will see the Deployment set to 0/0 replicas after which the Deployment can be inspected to show the replicas field and the annotation.

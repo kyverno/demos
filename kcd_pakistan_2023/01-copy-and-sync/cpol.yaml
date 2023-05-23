@@ -1,0 +1,22 @@
+apiVersion: kyverno.io/v2beta1
+kind: ClusterPolicy
+metadata:
+  name: platform-copy
+spec:
+  generateExistingOnPolicyUpdate: true
+  rules:
+  - name: copy-sync-configmaps
+    match:
+      any:
+      - resources:
+          kinds:
+          - Namespace
+    generate:
+      kind: ConfigMap
+      apiVersion: v1
+      name: org-ca
+      namespace: "{{request.object.metadata.name}}"
+      synchronize: true
+      clone:
+        name: org-ca
+        namespace: platform

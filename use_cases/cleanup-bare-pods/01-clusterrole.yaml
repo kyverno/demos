@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    meta.helm.sh/release-name: kyverno
+    meta.helm.sh/release-namespace: kyverno
+  labels:
+    app.kubernetes.io/component: cleanup-controller
+    app.kubernetes.io/instance: kyverno
+    app.kubernetes.io/name: kyverno-cleanup-controller
+  name: kyverno:cleanup-controller-pods
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - list
+  - delete

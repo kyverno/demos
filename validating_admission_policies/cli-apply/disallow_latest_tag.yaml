@@ -1,0 +1,18 @@
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: "disallow-latest-tag"
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+    - apiGroups:   ["apps"]
+      apiVersions: ["v1"]
+      operations:  ["CREATE", "UPDATE"]
+      resources:   ["deployments"]
+  validations:
+    - expression: "object.spec.template.spec.containers.all(container, !container.image.matches('^[a-zA-Z]+:[0-9]*$'))"
+      message: "An image tag is required."
+    - expression: "object.spec.template.spec.containers.all(container, !container.image.contains('latest'))"
+      message: "Using a mutable image tag e.g. 'latest' is not allowed."
+

@@ -1,0 +1,3 @@
+# Description
+
+This use case illustrates how Kyverno can be used to perform a "refresh" of Secrets mounted as environment variables in Pods. In Kubernetes, a Pod which consumes a Secret/ConfigMap as an environment variable does not automatically update references if the source is updated. Note that this is done if mounted in a volume (but not subPath) and so represents a gap Kyverno can fill. This demo makes use of Kyverno's mutate for existing resource capability by annotating a Deployment if a Secret it consumes as an environment variable changes thereby causing a new rollout to occur.
