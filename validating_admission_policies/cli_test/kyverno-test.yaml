@@ -5,12 +5,12 @@ resources:
   - deployment.yaml
 results:
   - policy: check-deployment-replicas
-    rule: object.spec.replicas <= 5
+    isVap: true
     resource: nginx-deployment-1
     kind: Deployment
     result: pass
   - policy: check-deployment-replicas
-    rule: object.spec.replicas <= 5
+    isVap: true
     resource: nginx-deployment-2
     kind: Deployment
     result: fail
