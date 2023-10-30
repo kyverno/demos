@@ -1,16 +1,19 @@
-name: check_deployment_replicas
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: vap-test
 policies:
   - check_deployment_replicas.yaml
 resources:
   - deployment.yaml
 results:
   - policy: check-deployment-replicas
-    rule: object.spec.replicas <= 5
+    isValidatingAdmissionPolicy: true
     resource: nginx-deployment-1
     kind: Deployment
     result: pass
   - policy: check-deployment-replicas
-    rule: object.spec.replicas <= 5
+    isValidatingAdmissionPolicy: true
     resource: nginx-deployment-2
     kind: Deployment
     result: fail
