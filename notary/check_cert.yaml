@@ -15,31 +15,31 @@ spec:
             kinds:
               - Pod
       verifyImages:
-      - type: NotaryV2
+      - type: Notary
         imageReferences:
-        - "jimnotarytest.azurecr.io/jim/net-monitor*"
+        - "*"
         attestors:
         - count: 1
           entries:
           - certificates:
               cert: |-
                 -----BEGIN CERTIFICATE-----
-                MIIDVjCCAj6gAwIBAgIBUTANBgkqhkiG9w0BAQsFADBaMQswCQYDVQQGEwJVUzEL
-                MAkGA1UECBMCV0ExEDAOBgNVBAcTB1NlYXR0bGUxDzANBgNVBAoTBk5vdGFyeTEb
-                MBkGA1UEAxMSd2FiYml0LW5ldHdvcmtzLmlvMB4XDTIzMDExODA2MDg0NloXDTIz
-                MDExOTA2MDg0NlowWjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAldBMRAwDgYDVQQH
-                EwdTZWF0dGxlMQ8wDQYDVQQKEwZOb3RhcnkxGzAZBgNVBAMTEndhYmJpdC1uZXR3
-                b3Jrcy5pbzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOv75euYW+uq
-                WWAz+Y4Oh+F0DfPeQ3ZqnGGUUllwtLe3q9ms4vJbq9qwHHga0jyF12511IphrrjH
-                OBRtQFTIikPAJ3rZMCQiUjbUQDFNyqgoQx36/e3MyehUfPfEIKHhzNPR/iZ7KnTX
-                EbIfYCKF8OpNWfnDjfafbJeY8dlMyf2Hv9a9riKGLxQ4Rie47MSxXOZz8DuHH/EJ
-                e1RzWUdgcspSwxaC9kEebES8rQwkuVnHxrbXHpNnAy0dPRECCkvzEGRW73/vzGVC
-                PNYK6ASVT7kj+8dYl5VDfKIhwzsPTQETeeziA9DpqLAs58DSaJQJ+89eGxgeMJkk
-                llkW9dWXZEsCAwEAAaMnMCUwDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsG
-                AQUFBwMDMA0GCSqGSIb3DQEBCwUAA4IBAQAq/visaX+TKG//EVAM4bxtmsNVWCNu
-                mnBeeMEMHuVH0qDTtvSSThTXjPF8+EUkRf8VETg1Lu4Lany0SWCZuih9FQ7KYeYt
-                YS1PUXhIggpB0bGarWA+wePicTF4/4ngUUO4bg4Qhk/Biy1I0QHShpETp+bk6sJX
-                k40GyNsSjDOIcEJ4KydhKkiAHQsobt4NlGOlgq2n/jA7tcNkHQ0oxHbmMcIdtYal
-                cnCNpC8Ex6cx4ryQ7AhcLkREY4iQ9VuoP7/gUHGtqx+H1JHcsL4UIG4RXHE3MH4x
-                i+5OrxPxFoZoP9Fec5CHoqyqHARziLhSLtQoipJL1Mq5z3VnAFQMgkP8
+                MIIDVzCCAj+gAwIBAgICAL8wDQYJKoZIhvcNAQELBQAwWjELMAkGA1UEBhMCVVMx
+                CzAJBgNVBAgTAldBMRAwDgYDVQQHEwdTZWF0dGxlMQ8wDQYDVQQKEwZOb3Rhcnkx
+                GzAZBgNVBAMTEndhYmJpdC1uZXR3b3Jrcy5pbzAeFw0yMzA0MTkwODE0MjBaFw0y
+                NDA0MTkwODE0MjBaMFoxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJXQTEQMA4GA1UE
+                BxMHU2VhdHRsZTEPMA0GA1UEChMGTm90YXJ5MRswGQYDVQQDExJ3YWJiaXQtbmV0
+                d29ya3MuaW8wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCsLni/3fDd
+                MUKwzfSkc8orPrCLCRoiampqeBIQNlKZGP5UL7BP6neav/oy8p09b1ArBwKh1coO
+                LBLZh2BPVmNyoSmq8Ip9md7OQi5ApaC0cys/GTmJQov/tmFq+o9GOdK6yVjX8bS/
+                NPrlaM5XCzY9WaTvW/ODu7MjVqBFGHQa9AFjEJZrxtPkOF0WV7ffPiQ5RZnuccK0
+                V0ycKCtsadXFdQZl2w/Li5DZHTVyc6mhtIyPBSlsIbpQXB5SLPVb7jsDKk/XoNd6
+                DwB6lYBKgUtNL1cFhjwdWaTrqy5ymiuMKjyeeileZinpQH129jfTjL6Rx8Tv7PMf
+                Cu0hfgOMQ5TPAgMBAAGjJzAlMA4GA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggr
+                BgEFBQcDAzANBgkqhkiG9w0BAQsFAAOCAQEARnay50VbglZqudCIbsp96HHHkf+p
+                lvRkFOo148UaeeN12k803yRx2PxYzmUHvNKjX76eAWT3KzQEG9FRId5mSr2gO8sp
+                JJs9WITfKAXnNGSz/rd8tN6eSUKgN+32A9reKPO+0ntN1dJDb8R9892ze88UpDva
+                wgFXsl+jKC0y4HSEeHufIqgyI6freRFvUEAAMJ0SKPfNROc/1WcW5F4u6Sbh2UNn
+                lXOXSo6yg2xRJxATkHc9PE7tSBnDRIwjJG3ZyRLdyTeuzOl95ARImUtPAn2ElODf
+                21yAXY47fCnTSkTw1ZrSQa6jWG7Er/mgsTVT98PcKIGyx3iqPFNJjUkj/Q==
                 -----END CERTIFICATE-----

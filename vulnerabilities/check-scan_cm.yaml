@@ -31,7 +31,7 @@ spec:
           - keys: 
               publicKeys: "{{ keys.data.production }}"
         attestations:
-        - predicateType: "https://attestations.nirmata.io/scan/v1"
+        - predicateType: "https://trivy.aquasec.com/scan/v2"
           conditions:
           - all:
             - key: "{{ matches[].vulnerability | [?severity=='High' || severity=='Critical'].id }}"
