@@ -4,6 +4,7 @@ kind: ClusterPolicy
 metadata:
   name: verify-image
 spec:
+  validationFailureAction: Enforce
   rules:
     - name: check-signatures
       match:

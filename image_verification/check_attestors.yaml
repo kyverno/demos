@@ -3,13 +3,11 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
   name: check-image
-  annotations:
-    pod-policies.kyverno.io/autogen-controllers: none
 spec:
-  validationFailureAction: audit
+  validationFailureAction: Enforce
   background: false
   webhookTimeoutSeconds: 30
-  failurePolicy: Ignore  
+  failurePolicy: Fail  
   rules:
     - name: verify-static-key
       match:

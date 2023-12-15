@@ -7,7 +7,7 @@ metadata:
     policies.kyverno.io/description: >-
       Generate resource qoutas based on Namespace type
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   background: false
   rules:
     - name: add-quota-sm
@@ -19,6 +19,7 @@ spec:
             matchLabels:
               type: small
       generate:
+        apiVersion: v1
         kind: ResourceQuota
         name: quota-sm
         namespace: "{{request.object.metadata.name}}"
@@ -46,6 +47,7 @@ spec:
             matchLabels:
               type: medium
       generate:
+        apiVersion: v1
         kind: ResourceQuota
         name: quota-md
         namespace: "{{request.object.metadata.name}}"
@@ -73,6 +75,7 @@ spec:
             matchLabels:
               type: large
       generate:
+        apiVersion: v1
         kind: ResourceQuota
         name: quota-lg
         namespace: "{{request.object.metadata.name}}"

@@ -1,52 +1,39 @@
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
+  name: additional-generate-roles
   labels:
-    app: kyverno
-    app.kubernetes.io/component: kyverno
+    app.kubernetes.io/component: background-controller
     app.kubernetes.io/instance: kyverno
-    app.kubernetes.io/name: kyverno
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: latest
-  name: kyverno:generate-additional
 rules:
 - apiGroups:
-  - networking.k8s.io
+  - rbac.authorization.k8s.io
   resources:
-  - ingresses
-  - ingressclasses
-  - networkpolicies
+  - roles
+  - clusterroles
+  - rolebindings
+  - clusterrolebindings
   verbs:
+  - list
+  - watch
   - create
+  - delete 
   - update
+  - get 
   - patch
-  - delete
 - apiGroups:
   - ""
   resources:
   - namespaces
-  - configmaps
-  - secrets
-  - resourcequotas
-  - limitranges
   verbs:
+  - list
+  - watch
   - create
+  - delete 
   - update
+  - get 
   - patch
-  - delete
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
-  - rolebindings
-  - clusterrolebindings
-  - roles
-  - clusterroles
-  verbs:
-  - create
-  - update
-  - patch
-  - delete
 - apiGroups:
   - ""
   resources:
@@ -201,6 +188,54 @@ rules:
   - update
   - watch
 - apiGroups:
+  - metrics.k8s.io
+  resources:
+  - pods
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kyverno.io
+  resources:
+  - cleanuppolicies
+  - clustercleanuppolicies
+  - policies
+  - clusterpolicies
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - wgpolicyk8s.io
+  resources:
+  - policyreports
+  - clusterpolicyreports
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kyverno.io
+  resources:
+  - admissionreports
+  - clusteradmissionreports
+  - backgroundscanreports
+  - clusterbackgroundscanreports
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kyverno.io
+  resources:
+  - updaterequests
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - ""
   resources:
   - configmaps
@@ -329,18 +364,8 @@ rules:
 - apiGroups:
   - kyverno.io
   resources:
-  - generaterequests
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - kyverno.io
-  resources:
+  - cleanuppolicies
+  - clustercleanuppolicies
   - policies
   - clusterpolicies
   verbs:

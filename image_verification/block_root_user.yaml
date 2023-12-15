@@ -4,7 +4,7 @@ kind: ClusterPolicy
 metadata:
   name: block-root  
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
   - name: only-allow-non-root
     match:

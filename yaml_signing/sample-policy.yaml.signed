@@ -19,4 +19,4 @@ spec:
         spec:
           containers:
           - image: registry.domain.com/*
-  validationFailureAction: enforce
+  validationFailureAction: Enforce

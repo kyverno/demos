@@ -4,21 +4,20 @@ metadata:
   name: allow-insecure-pod
   namespace: kyverno
 spec:
-  exceptions:
-    - policyName: disallow-capabilities-strict
-      ruleNames:
-        - require-drop-all
-    - policyName: disallow-privilege-escalation
-      ruleNames:
-        - privilege-escalation
-    - policyName: require-run-as-nonroot
-      ruleNames:
-        - run-as-non-root
-    - policyName: restrict-seccomp-strict
-      ruleNames:
-        - check-seccomp-strict
   match:
     any:
       - resources:
+          names:
+            - "nginx"
           namespaces:
             - test
+  exceptions:
+    - policyName: disallow-capabilities-strict
+      ruleNames: ["*"]
+    - policyName: disallow-privilege-escalation
+      ruleNames: ["*"]
+    - policyName: require-run-as-nonroot
+      ruleNames: ["*"]
+    - policyName: restrict-seccomp-strict
+      ruleNames: ["*"]
+

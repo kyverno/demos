@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   labels:
     type: medium
-  name: test
+  name: team-1

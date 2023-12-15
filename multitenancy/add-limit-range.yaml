@@ -18,6 +18,7 @@ spec:
             matchLabels:
               type: small
       generate:
+        apiVersion: v1
         kind: LimitRange
         name: limit-range-sm
         namespace: "{{request.object.metadata.name}}"
@@ -40,6 +41,7 @@ spec:
             matchLabels:
               type: medium
       generate:
+        apiVersion: v1  
         kind: LimitRange
         name: limit-range-md
         namespace: "{{request.object.metadata.name}}"
@@ -62,6 +64,7 @@ spec:
             matchLabels:
               type: large
       generate:
+        apiVersion: v1    
         kind: LimitRange
         name: limit-range-lg
         namespace: "{{request.object.metadata.name}}"

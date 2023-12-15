@@ -24,4 +24,4 @@ spec:
                 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEyBg8yod24/wIcc5QqlVLtCfL+6Te
                 +nwdPdTvMb1AiZn24zBToHJVZvQdYLgRWAbh0Jd+6JhEwsDmnXRrlV7rfw==
                 -----END PUBLIC KEY-----
-  validationFailureAction: enforce
+  validationFailureAction: Enforce

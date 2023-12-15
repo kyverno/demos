@@ -19,6 +19,7 @@ spec:
           - "cluster-admin"
       generate:
         synchronize: true
+        apiVersion: rbac.authorization.k8s.io/v1
         kind: ClusterRole
         name: "ns-admin-{{request.object.metadata.name}}-{{request.userInfo.username}}"
         data:
@@ -41,6 +42,7 @@ spec:
           - "cluster-admin"
       generate:
         synchronize: true
+        apiVersion: rbac.authorization.k8s.io/v1
         kind: ClusterRoleBinding
         name: "ns-admin-{{request.object.metadata.name}}-{{request.userInfo.username}}-binding"
         data:
@@ -64,6 +66,7 @@ spec:
           - "cluster-admin"
       generate:
         synchronize: true
+        apiVersion: rbac.authorization.k8s.io/v1
         kind: RoleBinding
         name: "{{request.userInfo.username}}-admin-binding"
         namespace: "{{request.object.metadata.name}}"

@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: disallow-latest-tags    
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
   - name: validate-image-tag
     match:

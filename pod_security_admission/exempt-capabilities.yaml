@@ -1,6 +1,6 @@
-validationFailureAction: enforce
+validationFailureAction: Enforce
 rules:
-  - name: enforce-restricted-exclude-capabilities-nginx
+  - name: Enforce-restricted-exclude-capabilities-nginx
     match:
       any:
         - resources:

@@ -12,12 +12,7 @@ spec:
       - resources:
           kinds:
           - Pod
-    exclude:
-      all:
-      - resources:
-          namespaces:
-          - kube-system
     validate:
       podSecurity:
         level: restricted
-        version: v1.23
+        version: v1.25

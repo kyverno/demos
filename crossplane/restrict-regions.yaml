@@ -8,7 +8,7 @@ metadata:
     policies.kyverno.io/title: "Allow creating S3 bucket in us-west-2 only"
   name: "allow-us-west-2-only"
 spec:
-  validationFailureAction: "enforce"
+  validationFailureAction: "Enforce"
   background: true
   rules:
   - name: "s3-in-us-west-2-only"

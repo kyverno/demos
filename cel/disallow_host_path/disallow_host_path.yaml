@@ -6,12 +6,12 @@ spec:
   validationFailureAction: Enforce
   background: false
   rules:
-    - name: host-path
+    - name: auto-mount-token
       match:
         any:
         - resources:
             kinds:
-              - Deployment
+              - Pod
       validate:
         cel:
           expressions:

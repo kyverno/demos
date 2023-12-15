@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: validate-pss-labels 
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   background: true
   rules:
   - name: check-restricted
@@ -16,4 +16,4 @@ spec:
       pattern:
         metadata:
           labels:
-            pod-security.kubernetes.io/enforce: "baseline | restricted"
+            pod-security.kubernetes.io/Enforce: "baseline | restricted"

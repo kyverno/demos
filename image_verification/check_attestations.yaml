@@ -12,9 +12,14 @@ spec:
         resources:
           kinds:
             - Pod
+      context:
+      - name: knownVulnerabilities
+        configMap:
+          name: known-vulnerabilities
+          namespace: system
       verifyImages:
       - imageReferences:
-        - "ghcr.io/jimbugwadia/demo-java-tomcat:*"
+        - "*"
         attestors:
         - entries:
           - keyless:
@@ -28,21 +33,29 @@ spec:
                 githubWorkflowRepository: JimBugwadia/demo-java-tomcat
         attestations:
           # check that an SBOM in CycloneDX format was provided
-          - predicateType: https://cyclonedx.org/BOM/v1
+          - type: https://cyclonedx.org/BOM/v1
+          # check build provenance data was provided
+          - type: https://example.com/provenance/v1 
           # check that a vulnerability scan report is provided, and:
           # 1. Trivy was used to scan the image
-          # 2. No vulnerabilities with a score above 8 exist 
-          - predicateType: https://trivy.aquasec.com/scan/v2
+          # 2. The image does not have any new or unknown CRITICAL or HIGH vulnerabilies
+          - type: https://trivy.aquasec.com/scan/v2
             conditions:
             - all:
               - key: "{{ scanner.uri }}"
                 operator: Equals
                 value: "pkg:github/aquasecurity/trivy@0.37.*"
+                message: "unknown scan report: {{scanner.uri}}"
               - key: "{{ time_since('','{{metadata.scanFinishedOn}}','') }}"
                 operator: LessThanOrEquals
-                value: 72h
-              - key: "{{ scanner.result.Results[].Vulnerabilities[].Severity }}"
-                operator: AllNotIn 
-                value: ["CRITICAL", "HIGH"]
-          # check build provenance data was provided
-          - predicateType: https://example.com/provenance/v1
+                value: 7200h
+                message: "scan report is older that 7200h"
+            - any:
+              - key: "{{ scanner.result.Results[].Vulnerabilities[?Severity == 'HIGH' || Severity == 'CRITICAL'].VulnerabilityID[] | length(@) }}"
+                operator: Equals
+                value: 0
+                message: "new vulnerabilities found: {{scanner.result.Results[].Vulnerabilities[?Severity == 'HIGH' || Severity == 'CRITICAL'].VulnerabilityID[]}}"
+              - key: "{{scanner.result.Results[].Vulnerabilities[?Severity == 'HIGH' || Severity == 'CRITICAL'].VulnerabilityID[]}}"
+                operator: In
+                value: "{{ knownVulnerabilities.data.\"{{image.name}}_{{image.tag}}\" || [] }}"
+
