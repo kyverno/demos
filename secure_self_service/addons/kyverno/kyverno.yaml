@@ -151,7 +151,7 @@ spec:
                     description: API version of the referent.
                     type: string
                   blockOwnerDeletion:
-                    description: If true, AND if the owner has the "foregroundDeletion" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. See https://kubernetes.io/docs/concepts/architecture/garbage-collection/#foreground-deletion for how the garbage collector interacts with this field and enforces the foreground deletion. Defaults to false. To set this field, a user needs "delete" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned.
+                    description: If true, AND if the owner has the "foregroundDeletion" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. See https://kubernetes.io/docs/concepts/architecture/garbage-collection/#foreground-deletion for how the garbage collector interacts with this field and Enforces the foreground deletion. Defaults to false. To set this field, a user needs "delete" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned.
                     type: boolean
                   controller:
                     description: If true, this reference points to the managing controller.
@@ -645,7 +645,7 @@ spec:
                     description: API version of the referent.
                     type: string
                   blockOwnerDeletion:
-                    description: If true, AND if the owner has the "foregroundDeletion" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. See https://kubernetes.io/docs/concepts/architecture/garbage-collection/#foreground-deletion for how the garbage collector interacts with this field and enforces the foreground deletion. Defaults to false. To set this field, a user needs "delete" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned.
+                    description: If true, AND if the owner has the "foregroundDeletion" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. See https://kubernetes.io/docs/concepts/architecture/garbage-collection/#foreground-deletion for how the garbage collector interacts with this field and Enforces the foreground deletion. Defaults to false. To set this field, a user needs "delete" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned.
                     type: boolean
                   controller:
                     description: If true, this reference points to the managing controller.
@@ -2839,10 +2839,10 @@ spec:
                 type: boolean
               validationFailureAction:
                 default: audit
-                description: ValidationFailureAction defines if a validation policy rule violation should block the admission review request (enforce), or allow (audit) the admission review request and report an error in a policy report. Optional. Allowed values are audit or enforce. The default value is "audit".
+                description: ValidationFailureAction defines if a validation policy rule violation should block the admission review request (Enforce), or allow (audit) the admission review request and report an error in a policy report. Optional. Allowed values are audit or Enforce. The default value is "audit".
                 enum:
                 - audit
-                - enforce
+                - Enforce
                 type: string
               validationFailureActionOverrides:
                 description: ValidationFailureActionOverrides is a Cluster Policy attribute that specifies ValidationFailureAction namespace-wise. It overrides ValidationFailureAction for the specified namespaces.
@@ -2852,7 +2852,7 @@ spec:
                       description: ValidationFailureAction defines the policy validation failure action
                       enum:
                       - audit
-                      - enforce
+                      - Enforce
                       type: string
                     namespaces:
                       items:
@@ -6239,10 +6239,10 @@ spec:
                 type: boolean
               validationFailureAction:
                 default: audit
-                description: ValidationFailureAction defines if a validation policy rule violation should block the admission review request (enforce), or allow (audit) the admission review request and report an error in a policy report. Optional. Allowed values are audit or enforce. The default value is "audit".
+                description: ValidationFailureAction defines if a validation policy rule violation should block the admission review request (Enforce), or allow (audit) the admission review request and report an error in a policy report. Optional. Allowed values are audit or Enforce. The default value is "audit".
                 enum:
                 - audit
-                - enforce
+                - Enforce
                 type: string
               validationFailureActionOverrides:
                 description: ValidationFailureActionOverrides is a Cluster Policy attribute that specifies ValidationFailureAction namespace-wise. It overrides ValidationFailureAction for the specified namespaces.
@@ -6252,7 +6252,7 @@ spec:
                       description: ValidationFailureAction defines the policy validation failure action
                       enum:
                       - audit
-                      - enforce
+                      - Enforce
                       type: string
                     namespaces:
                       items:
@@ -10266,10 +10266,10 @@ spec:
                 type: boolean
               validationFailureAction:
                 default: audit
-                description: ValidationFailureAction defines if a validation policy rule violation should block the admission review request (enforce), or allow (audit) the admission review request and report an error in a policy report. Optional. Allowed values are audit or enforce. The default value is "audit".
+                description: ValidationFailureAction defines if a validation policy rule violation should block the admission review request (Enforce), or allow (audit) the admission review request and report an error in a policy report. Optional. Allowed values are audit or Enforce. The default value is "audit".
                 enum:
                 - audit
-                - enforce
+                - Enforce
                 type: string
               validationFailureActionOverrides:
                 description: ValidationFailureActionOverrides is a Cluster Policy attribute that specifies ValidationFailureAction namespace-wise. It overrides ValidationFailureAction for the specified namespaces.
@@ -10279,7 +10279,7 @@ spec:
                       description: ValidationFailureAction defines the policy validation failure action
                       enum:
                       - audit
-                      - enforce
+                      - Enforce
                       type: string
                     namespaces:
                       items:
@@ -13666,10 +13666,10 @@ spec:
                 type: boolean
               validationFailureAction:
                 default: audit
-                description: ValidationFailureAction defines if a validation policy rule violation should block the admission review request (enforce), or allow (audit) the admission review request and report an error in a policy report. Optional. Allowed values are audit or enforce. The default value is "audit".
+                description: ValidationFailureAction defines if a validation policy rule violation should block the admission review request (Enforce), or allow (audit) the admission review request and report an error in a policy report. Optional. Allowed values are audit or Enforce. The default value is "audit".
                 enum:
                 - audit
-                - enforce
+                - Enforce
                 type: string
               validationFailureActionOverrides:
                 description: ValidationFailureActionOverrides is a Cluster Policy attribute that specifies ValidationFailureAction namespace-wise. It overrides ValidationFailureAction for the specified namespaces.
@@ -13679,7 +13679,7 @@ spec:
                       description: ValidationFailureAction defines the policy validation failure action
                       enum:
                       - audit
-                      - enforce
+                      - Enforce
                       type: string
                     namespaces:
                       items:

@@ -22,4 +22,4 @@ spec:
       pattern:
         metadata:
           namespace: '!default'
-  validationFailureAction: enforce
+  validationFailureAction: Enforce

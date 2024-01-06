@@ -13,7 +13,7 @@ metadata:
       Note that checking for some of these resources may require modifying the Kyverno
       ConfigMap to remove filters.      
 spec:
-  validationFailureAction: audit
+  validationFailureAction: Audit
   rules:
   - name: validate-v1-25-removals
     match:

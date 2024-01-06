@@ -19,6 +19,7 @@ spec:
               type: small
       generate:
         kind: LimitRange
+        apiVersion: v1
         name: limit-range-sm
         namespace: "{{request.object.metadata.name}}"
         data:
@@ -41,6 +42,7 @@ spec:
               type: medium
       generate:
         kind: LimitRange
+        apiVersion: v1
         name: limit-range-md
         namespace: "{{request.object.metadata.name}}"
         data:
@@ -63,6 +65,7 @@ spec:
               type: large
       generate:
         kind: LimitRange
+        apiVersion: v1
         name: limit-range-lg
         namespace: "{{request.object.metadata.name}}"
         data:

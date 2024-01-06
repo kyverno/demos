@@ -1,0 +1,26 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: validate-known-vulns
+spec:
+  validationFailureAction: Enforce
+  rules:
+    - name: check-signature
+      match:
+        any:
+        - resources:
+            kinds:
+              - ConfigMap
+            name: known-vulnerabilities
+            namespaces:
+              - "system"
+      validate:
+        manifests:
+          dryRun: 
+            enable: true
+            namespace: kyverno
+          attestors:
+          - count: 1
+            entries:
+            - keyless:
+                subject: "jim@nirmata.com"

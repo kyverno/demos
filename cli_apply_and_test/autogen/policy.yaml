@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: require-common-labels
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
   - name: check-for-labels
     match:

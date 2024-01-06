@@ -1,0 +1,37 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-long-lived-tokens
+spec:
+  validationFailureAction: Enforce
+  background: false
+  rules:
+    - name: deny-api-call
+      match:
+        any:
+        - resources:
+            kinds:
+              - "*"
+      exclude:
+        any:
+        - clusterRoles:
+          - cluster-admin
+      context:
+        - name: sa
+          apiCall:
+            urlPath: "/api/v1/namespaces/{{serviceAccountNamespace}}/serviceaccounts/{{serviceAccountName}}"
+      preconditions:
+        all:
+        - key: "{{serviceAccountName}}"
+          operator: Equals
+          value: "*?"
+        - key: "{{serviceAccountNamespace}}"
+          operator: NotEquals
+          value: "kube-system"
+      validate:
+        deny:
+          conditions:
+            any:
+            - key: "{{ sa.secrets | length(@) }}"
+              operator: GreaterThan
+              value: 0
