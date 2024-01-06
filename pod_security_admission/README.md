@@ -1,10 +1,10 @@
 # Demo steps
 
-1. Create a namespace Enforces the baseline Pod Security Standards (PSS)
+1. Create a namespace enforces the baseline Pod Security Standards (PSS)
 
 ```sh
 kubectl create ns baseline
-kubectl label ns baseline pod-security.kubernetes.io/Enforce-version=v1.23 pod-security.kubernetes.io/Enforce=baseline
+kubectl label ns baseline pod-security.kubernetes.io/enforce-version=v1.23 pod-security.kubernetes.io/enforce=baseline
 ```
 
 2. Verify that the privileged pod is blocked by the baseline Pod Security Admission (PSa) check
@@ -40,10 +40,10 @@ kubectl apply -f root-deployment-forbidden.yaml -n baseline --dry-run=server
 
 5. (optional) Verify the restricted PSa check
 
-Create a namespace that Enforces the restricted PSS control:
+Create a namespace that enforces the restricted PSS control:
 ```sh
 kubectl create ns restricted
-kubectl label ns restricted pod-security.kubernetes.io/Enforce-version=v1.23 pod-security.kubernetes.io/Enforce=restricted
+kubectl label ns restricted pod-security.kubernetes.io/enforce-version=v1.23 pod-security.kubernetes.io/enforce=restricted
 ```
 
 Create the same pod `root-pod-exempted` that is allowed in step 4, and it fails the restricted PSa check:

@@ -16,4 +16,4 @@ spec:
       pattern:
         metadata:
           labels:
-            pod-security.kubernetes.io/Enforce: "baseline | restricted"
+            pod-security.kubernetes.io/enforce: "baseline | restricted"
