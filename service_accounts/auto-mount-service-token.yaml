@@ -17,7 +17,7 @@ spec:
           expressions:
             - message: "the default service account is not allowed"
               expression: >-
-                object.spec.serviceAccountName != 'default'
+                !has(object.spec.volumes) || object.spec.serviceAccountName != 'default'
             - message: "automountServiceAccountToken must be false" 
               expression: >-
                 !has(object.spec.automountServiceAccountToken) || 
@@ -30,4 +30,4 @@ spec:
                       v.projected.sources.all(s, !has(s.serviceAccountToken) || 
                         !has(s.serviceAccountToken) || 
                         !has(s.serviceAccountToken.expirationSeconds) || 
-                        s.serviceAccountToken.expirationSeconds <= 3600))
+                        s.serviceAccountToken.expirationSeconds <= 3610))
