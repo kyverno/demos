@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-image-venafi-key
+spec:
+  validationFailureAction: Enforce
+  webhookTimeoutSeconds: 30
+  failurePolicy: Fail
+  rules:
+    - name: check-image-venafi-key
+      context:
+        - name: publickeys
+          configMap:
+            name: venafi-public-keys
+            namespace: nirmata-venafi-adapter
+      match:
+        resources:
+          kinds:
+            - Pod
+      verifyImages:
+        - imageReferences:
+            - ghcr.io/nirmata/sample-venafi-csp-image*
+          attestors:
+            - count: 1
+              entries:
+                - certificates:
+                    certChain: "{{ publickeys.data.{{ request.namespace }} }}"

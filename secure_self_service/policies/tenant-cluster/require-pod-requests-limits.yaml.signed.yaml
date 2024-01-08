@@ -24,4 +24,4 @@ spec:
               requests:
                 cpu: ?*
                 memory: ?*
-  validationFailureAction: enforce
+  validationFailureAction: Enforce

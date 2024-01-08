@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: exempt-run-as-non-root
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   applyRules: One
   rules:
   - name: exempt-run-as-non-root

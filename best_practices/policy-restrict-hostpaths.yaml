@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: restrict-host-paths
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
   - name: check-paths
     match:

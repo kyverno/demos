@@ -4,7 +4,7 @@ kind: ClusterPolicy
 metadata:
   name: check-scans
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   webhookTimeoutSeconds: 30
   failurePolicy: Fail
   applyRules: One

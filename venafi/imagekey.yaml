@@ -1,0 +1,15 @@
+apiVersion: security.nirmata.io/v1
+kind: ImageKey
+metadata:
+  name: imagekey1
+  namespace: nirmata-venafi-adapter
+spec:
+  venafiPKCS11Config:
+    authURL: "https://nirmata-tpp.se.venafi.com/vedauth"
+    hsmURL: "https://nirmata-tpp.se.venafi.com/vedhsm"
+    username: sample-cs-user 
+    passwordSecretName: nirmata-venafi-adapter/venafi-pwd-secret/password
+    label: Sample-Development-Environment
+    interval: 5 
+    configMap: nirmata-venafi-adapter/venafi-public-keys/ateam
+    fetchType: certchain

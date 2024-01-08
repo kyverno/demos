@@ -1,0 +1,33 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: deny-auto-mount-token
+spec:
+  validationFailureAction: Enforce
+  background: false
+  rules:
+    - name: deny-auto-mount-token
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+      validate:
+        cel:
+          expressions:
+            - message: "the default service account is not allowed"
+              expression: >-
+                !has(object.spec.volumes) || object.spec.serviceAccountName != 'default'
+            - message: "automountServiceAccountToken must be false" 
+              expression: >-
+                !has(object.spec.automountServiceAccountToken) || 
+                object.spec.automountServiceAccountToken == false
+            - message: "pod token expiration must be less than or equal to 1 hour"
+              expression: >-
+                !has(object.spec.volumes) || 
+                  object.spec.volumes.all(v, !has(v.projected) || 
+                    !has(v.projected.sources) ||
+                      v.projected.sources.all(s, !has(s.serviceAccountToken) || 
+                        !has(s.serviceAccountToken) || 
+                        !has(s.serviceAccountToken.expirationSeconds) || 
+                        s.serviceAccountToken.expirationSeconds <= 3610))

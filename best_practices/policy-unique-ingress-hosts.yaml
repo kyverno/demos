@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: unique-ingress-host
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   background: false
   rules:
     - name: check-host
