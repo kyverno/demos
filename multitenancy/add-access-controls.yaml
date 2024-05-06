@@ -29,7 +29,7 @@ spec:
           rules:
             - apiGroups: [""]
               resources: ["namespaces"]
-              verbs: ["get", "delete"]
+              verbs: ["get", "delete", "watch", "list"]
               resourceNames:
                 - "{{request.object.metadata.name}}"
     - name: generate-owner-role-binding
